@@ -47,8 +47,8 @@ public class WordsAdapter extends RecyclerView.Adapter<WordsAdapter.WordsViewHol
 
     public class WordsViewHolder extends RecyclerView.ViewHolder {
 
-        public final TextView ruWordTextView;
-        public final TextView enWordTextView;
+        private final TextView ruWordTextView;
+        private final TextView enWordTextView;
 
         public WordsViewHolder(@NonNull View itemView) {
             super(itemView);
