@@ -1,4 +1,4 @@
-package dev.manifest.en_rucards;
+package dev.manifest.en_rucards.words;
 
 import android.os.Bundle;
 import android.view.Menu;
@@ -10,13 +10,14 @@ import com.google.android.material.snackbar.Snackbar;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import dev.manifest.en_rucards.R;
 
-public class MainActivity extends AppCompatActivity {
+public class WordsActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_words);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
