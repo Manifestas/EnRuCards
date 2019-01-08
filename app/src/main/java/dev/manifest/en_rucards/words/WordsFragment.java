@@ -5,8 +5,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.RecyclerView;
 import dev.manifest.en_rucards.R;
+import dev.manifest.en_rucards.data.model.Word;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -14,6 +19,9 @@ import dev.manifest.en_rucards.R;
  * create an instance of this fragment.
  */
 public class WordsFragment extends Fragment {
+
+    private RecyclerView recyclerView;
+    private WordsAdapter wordsAdapter;
 
     public WordsFragment() {
         // Required empty public constructor
@@ -33,6 +41,22 @@ public class WordsFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_words, container, false);
+        View root = inflater.inflate(R.layout.fragment_words, container, false);
+        recyclerView = root.findViewById(R.id.rv_words);
+        wordsAdapter = new WordsAdapter();
+
+        List<Word> words = new ArrayList<>();
+        Word word1 = new Word();
+        word1.setEnWord("truncated");
+        word1.setRuWord("усеченный");
+        words.add(word1);
+        Word word2 = new Word();
+        word2.setEnWord("commit");
+        word2.setRuWord("совершить");
+        words.add(word2);
+        wordsAdapter.setData(words);
+        recyclerView.setAdapter(wordsAdapter);
+
+        return root;
     }
 }
