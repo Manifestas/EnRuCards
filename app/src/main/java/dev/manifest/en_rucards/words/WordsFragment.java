@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import dev.manifest.en_rucards.R;
 import dev.manifest.en_rucards.data.model.Word;
@@ -43,6 +44,7 @@ public class WordsFragment extends Fragment {
         // Inflate the layout for this fragment
         View root = inflater.inflate(R.layout.fragment_words, container, false);
         recyclerView = root.findViewById(R.id.rv_words);
+        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         wordsAdapter = new WordsAdapter();
 
         List<Word> words = new ArrayList<>();
