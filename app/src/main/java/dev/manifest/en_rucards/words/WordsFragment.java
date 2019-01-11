@@ -1,6 +1,7 @@
 package dev.manifest.en_rucards.words;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -8,11 +9,22 @@ import android.view.ViewGroup;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.inject.Inject;
+import javax.inject.Named;
+
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import dev.manifest.en_rucards.App;
 import dev.manifest.en_rucards.R;
+import dev.manifest.en_rucards.data.model.Minicard;
+import dev.manifest.en_rucards.network.LingvoApi;
+import dev.manifest.en_rucards.network.NetworkService;
 import dev.manifest.en_rucards.data.model.Word;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -20,6 +32,10 @@ import dev.manifest.en_rucards.data.model.Word;
  * create an instance of this fragment.
  */
 public class WordsFragment extends Fragment {
+
+    private static final String TAG = WordsFragment.class.getSimpleName();
+    @Inject
+    Retrofit retrofit;
 
     private RecyclerView recyclerView;
     private WordsAdapter wordsAdapter;
@@ -41,6 +57,7 @@ public class WordsFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        ((App)(getContext().getApplicationContext())).getAppComponent().injectInto(this);
         // Inflate the layout for this fragment
         View root = inflater.inflate(R.layout.fragment_words, container, false);
         recyclerView = root.findViewById(R.id.rv_words);
@@ -58,6 +75,39 @@ public class WordsFragment extends Fragment {
         words.add(word2);
         wordsAdapter.setData(words);
         recyclerView.setAdapter(wordsAdapter);
+
+        /*
+        NetworkService.getInstance()
+                .getJSONApi()
+                .getAuthToken()
+                .enqueue(new Callback<String>() {
+                    @Override
+                    public void onResponse(Call<String> call, Response<String> response) {
+                        System.out.println(response.body());
+                    }
+
+                    @Override
+                    public void onFailure(Call<String> call, Throwable t) {
+
+                    }
+                });
+        */
+
+        retrofit.create(LingvoApi.class).getTranslation("четыре").enqueue(new Callback<Minicard>() {
+            @Override
+            public void onResponse(Call<Minicard> call, Response<Minicard> response) {
+                Minicard body = response.body();
+                Log.d(TAG, body.getHeading());
+                Log.d(TAG, body.getTranslation().getTranslation());
+
+
+            }
+
+            @Override
+            public void onFailure(Call<Minicard> call, Throwable t) {
+
+            }
+        });
 
         return root;
     }
