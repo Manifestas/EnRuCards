@@ -1,5 +1,7 @@
 package dev.manifest.en_rucards.words;
 
+import android.content.Intent;
+
 import java.util.List;
 
 import dev.manifest.en_rucards.data.model.Word;
@@ -13,6 +15,8 @@ public interface WordsContract {
 
         void showWords(List<Word> words);
 
+        void showAddWord();
+
         void showSnackbar(String message);
     }
 
@@ -25,5 +29,7 @@ public interface WordsContract {
         void removeWord(Word requestedWord);
 
         void addNewWord();
+
+        void result(int requestCode, int resultCode, Intent data);
     }
 }
