@@ -7,10 +7,11 @@ import dev.manifest.en_rucards.di.component.AppComponent;
 import dev.manifest.en_rucards.di.component.DaggerAppComponent;
 import dev.manifest.en_rucards.di.module.AppModule;
 import dev.manifest.en_rucards.di.module.NetModule;
+import dev.manifest.en_rucards.di.module.SharedPreferenceModule;
 
 public class App extends Application {
 
-    private AppComponent appComponent;
+    private static AppComponent appComponent;
 
     @Override
     public void onCreate() {
@@ -21,6 +22,7 @@ public class App extends Application {
                 // list of modules that are part of this component need to be created here too
                 .appModule(new AppModule(this)) // This also corresponds to the name of your module: %component_name%Module
                 .netModule(new NetModule())
+                .sharedPreferenceModule(new SharedPreferenceModule())
                 .build();
 
         // If a Dagger 2 component does not have any constructor arguments for any of its modules,
@@ -28,7 +30,7 @@ public class App extends Application {
         //  mAppComponent = com.codepath.dagger.components.DaggerAppComponent.create();
     }
 
-    public AppComponent getAppComponent() {
+    public static AppComponent getAppComponent() {
         return appComponent;
     }
 }

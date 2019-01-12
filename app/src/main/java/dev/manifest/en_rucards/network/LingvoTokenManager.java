@@ -8,6 +8,7 @@ import java.util.Date;
 
 import javax.inject.Inject;
 
+import dev.manifest.en_rucards.App;
 import retrofit2.Response;
 
 public class LingvoTokenManager implements TokenManager {
@@ -20,6 +21,10 @@ public class LingvoTokenManager implements TokenManager {
     SharedPreferences sharedPreferences;
     private String token;
     private long expireTime;
+
+    public LingvoTokenManager() {
+        sharedPreferences = App.getAppComponent().getSharedPreference();
+    }
 
     @Override
     public String getToken() {
@@ -34,9 +39,9 @@ public class LingvoTokenManager implements TokenManager {
             Date expireDate = calendar.getTime();
 
             int result = nowDate.compareTo(expireDate);
-        /* when comparing dates -1 means date passed so we need to refresh token
-        see {@link Date#compareTo} */
-            if (result < 0) {
+        /* if token not saved in preferences its null. When comparing dates -1 means date passed
+         so we need to refresh token see {@link Date#compareTo} */
+            if (token == null || result < 0) {
                 //refresh token here , and got new access token
                 token = refreshToken();
             }

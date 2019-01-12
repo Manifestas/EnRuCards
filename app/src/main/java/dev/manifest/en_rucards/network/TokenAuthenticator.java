@@ -5,6 +5,7 @@ import java.io.IOException;
 import javax.inject.Inject;
 
 import androidx.annotation.Nullable;
+import dev.manifest.en_rucards.App;
 import okhttp3.Authenticator;
 import okhttp3.Request;
 import okhttp3.Response;
@@ -14,6 +15,10 @@ public class TokenAuthenticator implements Authenticator {
 
     @Inject
     LingvoTokenManager tokenManager;
+
+    public TokenAuthenticator() {
+        tokenManager = App.getAppComponent().getLingvoTokenManager();
+    }
 
     @Nullable
     @Override
