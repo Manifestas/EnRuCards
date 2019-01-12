@@ -1,14 +1,19 @@
 package dev.manifest.en_rucards.words;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+
 import java.util.ArrayList;
 import java.util.List;
 
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import dev.manifest.en_rucards.R;
@@ -20,6 +25,11 @@ import dev.manifest.en_rucards.data.model.Word;
  * create an instance of this fragment.
  */
 public class WordsFragment extends Fragment {
+
+    public static final int REQUEST_NEW_WORD = 0;
+    private static final String DIALOG_NEW_WORD = "DialogNewWord";
+
+    private WordsContract.WordsPresenter presenter;
 
     private RecyclerView recyclerView;
     private WordsAdapter wordsAdapter;
@@ -60,5 +70,29 @@ public class WordsFragment extends Fragment {
         recyclerView.setAdapter(wordsAdapter);
 
         return root;
+    }
+
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        FloatingActionButton fab = getActivity().findViewById(R.id.fab);
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                presenter.addNewWord();
+            }
+        });
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        presenter.result(requestCode, resultCode, data);
+    }
+
+    public void showAddWord() {
+        FragmentManager manager = getFragmentManager();
+        AddWordDialogFragment dialog = AddWordDialogFragment.newInstance();
+        dialog.setTargetFragment(this, REQUEST_NEW_WORD);
+        dialog.show(manager, DIALOG_NEW_WORD);
     }
 }
