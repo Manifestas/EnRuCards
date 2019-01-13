@@ -12,16 +12,16 @@ import dev.manifest.en_rucards.data.model.Word;
  */
 public interface WordsContract {
 
-    interface WordsView {
+    interface View {
 
         void showWords(List<Word> words);
 
         void showAddWord();
 
-        void showSnackbar(String message);
+        void showSuccessfullyAddedWord();
     }
 
-    interface WordsPresenter extends BasePresenter<WordsView> {
+    interface Presenter extends BasePresenter<View> {
 
         void loadWords();
 
