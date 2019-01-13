@@ -45,7 +45,7 @@ public class WordsFragment extends Fragment implements WordsContract.View {
     @Named("auth")
     Retrofit retrofit;
     @Inject
-    private WordsContract.Presenter presenter;
+    WordsPresenter presenter;
 
     private RecyclerView recyclerView;
     private WordsAdapter wordsAdapter;
