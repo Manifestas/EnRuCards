@@ -32,6 +32,7 @@ public class NetModule {
     }
 
     @Provides
+    @Named("auth")
     @Singleton
     OkHttpClient provideOkHttpClient(HttpLoggingInterceptor interceptor) {
         OkHttpClient.Builder client = new OkHttpClient.Builder();
@@ -42,8 +43,18 @@ public class NetModule {
     }
 
     @Provides
+    @Named("non_auth")
     @Singleton
-    Retrofit provideRetrofit(OkHttpClient client) {
+    OkHttpClient provideOkHttpClient(HttpLoggingInterceptor interceptor) {
+        OkHttpClient.Builder client = new OkHttpClient.Builder();
+        client.addInterceptor(interceptor);
+        return client.build();
+    }
+
+    @Provides
+    @Named("auth")
+    @Singleton
+    Retrofit provideRetrofit(@Named("auth") OkHttpClient client) {
         return new Retrofit.Builder()
                 .baseUrl(BuildConfig.API_URL)
                 .addConverterFactory(GsonConverterFactory.create())
@@ -51,14 +62,14 @@ public class NetModule {
                 .build();
     }
 
-    /*
     @Provides
     @Named("non_auth")
     @Singleton
-    Retrofit provideRetrofit() {
+    Retrofit provideRetrofit(@Named("non_auth") OkHttpClient client) {
         return new Retrofit.Builder()
                 .baseUrl(BuildConfig.API_URL)
+                .addConverterFactory(GsonConverterFactory.create())
+                .client(client)
                 .build();
     }
-    */
 }
