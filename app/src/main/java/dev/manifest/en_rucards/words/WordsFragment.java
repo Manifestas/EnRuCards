@@ -23,9 +23,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import dev.manifest.en_rucards.App;
 import dev.manifest.en_rucards.R;
 import dev.manifest.en_rucards.data.model.Minicard;
-import dev.manifest.en_rucards.network.LingvoApi;
-import dev.manifest.en_rucards.network.NetworkService;
 import dev.manifest.en_rucards.data.model.Word;
+import dev.manifest.en_rucards.network.LingvoApi;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -38,13 +37,12 @@ import retrofit2.Retrofit;
  */
 public class WordsFragment extends Fragment {
 
-    private static final String TAG = WordsFragment.class.getSimpleName();
-    @Inject
-    Retrofit retrofit;
-
     public static final int REQUEST_NEW_WORD = 0;
+    private static final String TAG = WordsFragment.class.getSimpleName();
     private static final String DIALOG_NEW_WORD = "DialogNewWord";
-
+    @Inject
+    @Named("auth")
+    Retrofit retrofit;
     private WordsContract.WordsPresenter presenter;
 
     private RecyclerView recyclerView;
@@ -86,23 +84,6 @@ public class WordsFragment extends Fragment {
         wordsAdapter.setData(words);
         recyclerView.setAdapter(wordsAdapter);
 
-        /*
-        NetworkService.getInstance()
-                .getJSONApi()
-                .getAuthToken()
-                .enqueue(new Callback<String>() {
-                    @Override
-                    public void onResponse(Call<String> call, Response<String> response) {
-                        System.out.println(response.body());
-                    }
-
-                    @Override
-                    public void onFailure(Call<String> call, Throwable t) {
-
-                    }
-                });
-        */
-
         retrofit.create(LingvoApi.class).getTranslation("четыре").enqueue(new Callback<Minicard>() {
             @Override
             public void onResponse(Call<Minicard> call, Response<Minicard> response) {
@@ -111,13 +92,11 @@ public class WordsFragment extends Fragment {
                     Log.d(TAG, body.getHeading());
                     Log.d(TAG, body.getTranslation().getTranslation());
                 }
-
-
             }
 
             @Override
             public void onFailure(Call<Minicard> call, Throwable t) {
-
+                Log.d(TAG, "onFailure: " + t);
             }
         });
 
