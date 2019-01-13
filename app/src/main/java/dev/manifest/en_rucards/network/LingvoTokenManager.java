@@ -7,9 +7,11 @@ import java.util.Calendar;
 import java.util.Date;
 
 import javax.inject.Inject;
+import javax.inject.Named;
 
 import dev.manifest.en_rucards.App;
 import retrofit2.Response;
+import retrofit2.Retrofit;
 
 public class LingvoTokenManager implements TokenManager {
 
@@ -19,6 +21,11 @@ public class LingvoTokenManager implements TokenManager {
 
     @Inject
     SharedPreferences sharedPreferences;
+
+    @Inject
+    @Named("non_auth")
+    Retrofit retrofit;
+
     private String token;
     private long expireTime;
 
@@ -64,7 +71,7 @@ public class LingvoTokenManager implements TokenManager {
     public String refreshToken() {
         Response<String> tokenResponse;
         try {
-            tokenResponse = NetworkService.getInstance().refreshToken();
+            tokenResponse = retrofit.create(LingvoApi.class).getAuthToken().execute();
         } catch (IOException e) {
             return null;
         }

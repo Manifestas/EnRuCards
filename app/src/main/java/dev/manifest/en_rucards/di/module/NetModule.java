@@ -34,7 +34,7 @@ public class NetModule {
     @Provides
     @Named("auth")
     @Singleton
-    OkHttpClient provideOkHttpClient(HttpLoggingInterceptor interceptor) {
+    OkHttpClient provideAuthOkHttpClient(HttpLoggingInterceptor interceptor) {
         OkHttpClient.Builder client = new OkHttpClient.Builder();
         client.authenticator(new TokenAuthenticator());
         client.addInterceptor(new TokenInterceptor());
@@ -54,7 +54,7 @@ public class NetModule {
     @Provides
     @Named("auth")
     @Singleton
-    Retrofit provideRetrofit(@Named("auth") OkHttpClient client) {
+    Retrofit provideAuthRetrofit(@Named("auth") OkHttpClient client) {
         return new Retrofit.Builder()
                 .baseUrl(BuildConfig.API_URL)
                 .addConverterFactory(GsonConverterFactory.create())

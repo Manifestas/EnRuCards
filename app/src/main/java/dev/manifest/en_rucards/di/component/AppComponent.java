@@ -11,6 +11,7 @@ import dev.manifest.en_rucards.di.module.NetModule;
 import dev.manifest.en_rucards.di.module.SharedPreferenceModule;
 import dev.manifest.en_rucards.network.LingvoTokenManager;
 import dev.manifest.en_rucards.words.WordsFragment;
+import retrofit2.Retrofit;
 
 @Singleton
 @Component(modules = {AppModule.class, SharedPreferenceModule.class, NetModule.class})
@@ -21,4 +22,5 @@ public interface AppComponent {
 
     LingvoTokenManager getLingvoTokenManager();
     SharedPreferences getSharedPreference();
+    Retrofit getRetrofit();
 }
