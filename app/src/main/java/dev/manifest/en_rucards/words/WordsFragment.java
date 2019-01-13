@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.snackbar.Snackbar;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -35,7 +36,7 @@ import retrofit2.Retrofit;
  * Use the {@link WordsFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class WordsFragment extends Fragment {
+public class WordsFragment extends Fragment implements WordsContract.View {
 
     public static final int REQUEST_NEW_WORD = 0;
     private static final String TAG = WordsFragment.class.getSimpleName();
@@ -43,7 +44,8 @@ public class WordsFragment extends Fragment {
     @Inject
     @Named("auth")
     Retrofit retrofit;
-    private WordsContract.WordsPresenter presenter;
+    @Inject
+    private WordsContract.Presenter presenter;
 
     private RecyclerView recyclerView;
     private WordsAdapter wordsAdapter;
@@ -64,7 +66,7 @@ public class WordsFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+                                          Bundle savedInstanceState) {
         App.getAppComponent().injectInto(this);
         // Inflate the layout for this fragment
         View root = inflater.inflate(R.layout.fragment_words, container, false);
@@ -116,14 +118,42 @@ public class WordsFragment extends Fragment {
     }
 
     @Override
+    public void onResume() {
+        super.onResume();
+        presenter.takeView(this);
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        presenter.dropView(); //prevent leaking activity in
+        // case presenter is orchestrating a long running task
+    }
+
+    @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         presenter.result(requestCode, resultCode, data);
     }
 
+    @Override
+    public void showWords(List<Word> words) {
+
+    }
+
+    @Override
     public void showAddWord() {
         FragmentManager manager = getFragmentManager();
         AddWordDialogFragment dialog = AddWordDialogFragment.newInstance();
         dialog.setTargetFragment(this, REQUEST_NEW_WORD);
         dialog.show(manager, DIALOG_NEW_WORD);
+    }
+
+    @Override
+    public void showSuccessfullyAddedWord() {
+        showMessage(getString(R.string.word_added));
+    }
+
+    public void showMessage(String message) {
+        Snackbar.make(recyclerView, message, Snackbar.LENGTH_SHORT).show();
     }
 }

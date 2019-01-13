@@ -5,4 +5,5 @@
     <string name="add_new_word">Add new word</string>
     <string name="add">Add</string>
     <string name="cancel">Cancel</string>
+    <string name="word_added">The new word has been added.</string>
 </resources>
