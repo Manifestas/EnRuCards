@@ -4,6 +4,7 @@ import android.content.Intent;
 
 import java.util.List;
 
+import dev.manifest.en_rucards.common.BasePresenter;
 import dev.manifest.en_rucards.data.model.Word;
 
 /**
@@ -20,7 +21,7 @@ public interface WordsContract {
         void showSnackbar(String message);
     }
 
-    interface WordsPresenter {
+    interface WordsPresenter extends BasePresenter<WordsView> {
 
         void loadWords();
 
