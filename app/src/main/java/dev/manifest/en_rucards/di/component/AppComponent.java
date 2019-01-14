@@ -3,6 +3,7 @@ package dev.manifest.en_rucards.di.component;
 import android.app.Application;
 import android.content.SharedPreferences;
 
+import javax.inject.Named;
 import javax.inject.Singleton;
 
 import dagger.Component;
@@ -26,5 +27,9 @@ public interface AppComponent {
 
     SharedPreferences getSharedPreference();
 
+    @Named("auth")
+    Retrofit getAuthRetrofit();
+
+    @Named("non_auth")
     Retrofit getRetrofit();
 }
