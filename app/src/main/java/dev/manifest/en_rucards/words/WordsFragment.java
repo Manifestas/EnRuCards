@@ -45,7 +45,7 @@ public class WordsFragment extends Fragment implements WordsContract.View {
     @Named("auth")
     Retrofit retrofit;
     @Inject
-    private WordsContract.Presenter presenter;
+    WordsPresenter presenter;
 
     private RecyclerView recyclerView;
     private WordsAdapter wordsAdapter;
@@ -86,7 +86,7 @@ public class WordsFragment extends Fragment implements WordsContract.View {
         wordsAdapter.setData(words);
         recyclerView.setAdapter(wordsAdapter);
 
-        retrofit.create(LingvoApi.class).getTranslation("четыре").enqueue(new Callback<Minicard>() {
+        retrofit.create(LingvoApi.class).getTranslation("provided").enqueue(new Callback<Minicard>() {
             @Override
             public void onResponse(Call<Minicard> call, Response<Minicard> response) {
                 Minicard body = response.body();
