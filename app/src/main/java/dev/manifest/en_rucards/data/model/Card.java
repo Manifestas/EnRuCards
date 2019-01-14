@@ -1,5 +1,6 @@
 package dev.manifest.en_rucards.data.model;
 
+import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
@@ -8,8 +9,13 @@ public class Card {
 
     @PrimaryKey(autoGenerate = true)
     private long id;
+
+    @ColumnInfo(name = "original_word")
     private String originalWord;
+
     private String translate;
+
+    @ColumnInfo(name = "sound_name")
     private String soundName;
 
     public Card(String originalWord, String translate, String soundName) {
