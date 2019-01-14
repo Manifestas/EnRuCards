@@ -2,9 +2,10 @@ package dev.manifest.en_rucards.data.model;
 
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
+import androidx.room.Index;
 import androidx.room.PrimaryKey;
 
-@Entity
+@Entity(indices = @Index(value = {"original_word"}, unique = true))
 public class Card {
 
     @PrimaryKey(autoGenerate = true)
