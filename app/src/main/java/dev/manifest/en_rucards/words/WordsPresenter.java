@@ -26,7 +26,7 @@ public class WordsPresenter implements WordsContract.Presenter {
 
     @Override
     public void addNewWord() {
-
+        wordsView.showAddWord();
     }
 
     @Override
