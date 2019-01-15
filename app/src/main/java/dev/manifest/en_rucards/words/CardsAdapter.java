@@ -11,11 +11,11 @@ import java.util.List;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 import dev.manifest.en_rucards.R;
-import dev.manifest.en_rucards.data.model.Word;
+import dev.manifest.en_rucards.data.model.Card;
 
 public class CardsAdapter extends RecyclerView.Adapter<CardsAdapter.CardsViewHolder> {
 
-    private List<Word> words = new ArrayList<>();
+    private List<Card> cards = new ArrayList<>();
 
     /**
      * This gets called when each new ViewHolder is created.
@@ -30,17 +30,17 @@ public class CardsAdapter extends RecyclerView.Adapter<CardsAdapter.CardsViewHol
 
     @Override
     public void onBindViewHolder(@NonNull CardsViewHolder holder, int position) {
-        Word currentWord = words.get(position);
-        holder.bind(currentWord);
+        Card currentCard = cards.get(position);
+        holder.bind(currentCard);
     }
 
     @Override
     public int getItemCount() {
-        return words.size();
+        return cards.size();
     }
 
-    public void setData(List<Word> words) {
-        this.words = words;
+    public void setData(List<Card> cards) {
+        this.cards = cards;
         notifyDataSetChanged();
     }
 
@@ -56,9 +56,9 @@ public class CardsAdapter extends RecyclerView.Adapter<CardsAdapter.CardsViewHol
             enWordTextView = itemView.findViewById(R.id.tv_ru_word);
         }
 
-        public void bind(Word word) {
-            ruWordTextView.setText(word.getRuWord());
-            enWordTextView.setText(word.getEnWord());
+        public void bind(Card card) {
+            ruWordTextView.setText(card.getOriginalWord());
+            enWordTextView.setText(card.getTranslate());
         }
     }
 }
