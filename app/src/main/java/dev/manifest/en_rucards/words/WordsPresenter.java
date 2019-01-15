@@ -3,9 +3,12 @@ package dev.manifest.en_rucards.words;
 import android.app.Activity;
 import android.content.Intent;
 
+import java.util.List;
+
 import javax.inject.Inject;
 
 import dev.manifest.en_rucards.data.model.Card;
+import dev.manifest.en_rucards.data.repo.CardsDataSource;
 import dev.manifest.en_rucards.data.repo.CardsRepository;
 
 public class WordsPresenter implements CardsContract.Presenter {
@@ -16,6 +19,17 @@ public class WordsPresenter implements CardsContract.Presenter {
 
     @Override
     public void loadCards() {
+        repository.getCards(new CardsDataSource.LoadCardCallback() {
+            @Override
+            public void onCardsLoaded(List<Card> cards) {
+                wordsView.showCards(cards);
+            }
+
+            @Override
+            public void onDataNotAvailable() {
+
+            }
+        });
 
     }
 

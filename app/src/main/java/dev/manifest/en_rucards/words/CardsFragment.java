@@ -91,6 +91,8 @@ public class CardsFragment extends Fragment implements CardsContract.View {
             }
         });
 
+        presenter.loadCards();
+
         return root;
     }
 
@@ -126,7 +128,7 @@ public class CardsFragment extends Fragment implements CardsContract.View {
 
     @Override
     public void showCards(List<Card> cards) {
-
+        cardsAdapter.setData(cards);
     }
 
     @Override

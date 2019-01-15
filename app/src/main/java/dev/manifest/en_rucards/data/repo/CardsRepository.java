@@ -1,5 +1,7 @@
 package dev.manifest.en_rucards.data.repo;
 
+import java.util.List;
+
 import javax.inject.Inject;
 import javax.inject.Named;
 
@@ -19,7 +21,18 @@ public class CardsRepository implements CardsDataSource {
     }
 
     @Override
-    public void getCards(@NonNull LoadCardCallback callback) {
+    public void getCards(@NonNull final LoadCardCallback callback) {
+        localDataSource.getCards(new LoadCardCallback() {
+            @Override
+            public void onCardsLoaded(List<Card> cards) {
+                callback.onCardsLoaded(cards);
+            }
+
+            @Override
+            public void onDataNotAvailable() {
+
+            }
+        });
 
     }
 
