@@ -5,7 +5,7 @@ import android.content.Intent;
 import java.util.List;
 
 import dev.manifest.en_rucards.common.BasePresenter;
-import dev.manifest.en_rucards.data.model.Word;
+import dev.manifest.en_rucards.data.model.Card;
 
 /**
  * This specifies the contract between the view and the presenter.
@@ -14,22 +14,22 @@ public interface CardsContract {
 
     interface View {
 
-        void showWords(List<Word> words);
+        void showCards(List<Card> words);
 
-        void showAddWord();
+        void showAddCard();
 
-        void showSuccessfullyAddedWord();
+        void showSuccessfullyAddedCard();
     }
 
     interface Presenter extends BasePresenter<View> {
 
-        void loadWords();
+        void loadCards();
 
-        void openWordDetail(Word requestedWord);
+        void openCardDetail(Card requestedCard);
 
-        void removeWord(Word requestedWord);
+        void removeCard(Card requestedCard);
 
-        void addNewWord();
+        void addNewCard();
 
         void result(int requestCode, int resultCode, Intent data);
     }

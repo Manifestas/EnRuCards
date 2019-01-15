@@ -23,6 +23,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import dev.manifest.en_rucards.App;
 import dev.manifest.en_rucards.R;
+import dev.manifest.en_rucards.data.model.Card;
 import dev.manifest.en_rucards.data.model.Minicard;
 import dev.manifest.en_rucards.data.model.Word;
 import dev.manifest.en_rucards.network.LingvoApi;
@@ -66,7 +67,7 @@ public class CardsFragment extends Fragment implements CardsContract.View {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                                          Bundle savedInstanceState) {
+                             Bundle savedInstanceState) {
         App.getAppComponent().injectInto(this);
         // Inflate the layout for this fragment
         View root = inflater.inflate(R.layout.fragment_words, container, false);
@@ -112,7 +113,7 @@ public class CardsFragment extends Fragment implements CardsContract.View {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                presenter.addNewWord();
+                presenter.addNewCard();
             }
         });
     }
@@ -136,12 +137,12 @@ public class CardsFragment extends Fragment implements CardsContract.View {
     }
 
     @Override
-    public void showWords(List<Word> words) {
+    public void showCards(List<Card> words) {
 
     }
 
     @Override
-    public void showAddWord() {
+    public void showAddCard() {
         FragmentManager manager = getFragmentManager();
         AddWordDialogFragment dialog = AddWordDialogFragment.newInstance();
         dialog.setTargetFragment(this, REQUEST_NEW_WORD);
@@ -149,7 +150,7 @@ public class CardsFragment extends Fragment implements CardsContract.View {
     }
 
     @Override
-    public void showSuccessfullyAddedWord() {
+    public void showSuccessfullyAddedCard() {
         showMessage(getString(R.string.word_added));
     }
 

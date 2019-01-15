@@ -5,7 +5,7 @@ import android.content.Intent;
 
 import javax.inject.Inject;
 
-import dev.manifest.en_rucards.data.model.Word;
+import dev.manifest.en_rucards.data.model.Card;
 import dev.manifest.en_rucards.data.repo.CardsRepository;
 
 public class WordsPresenter implements CardsContract.Presenter {
@@ -15,23 +15,23 @@ public class WordsPresenter implements CardsContract.Presenter {
     private CardsContract.View wordsView;
 
     @Override
-    public void loadWords() {
+    public void loadCards() {
 
     }
 
     @Override
-    public void openWordDetail(Word requestedWord) {
+    public void openCardDetail(Card requestedCard) {
 
     }
 
     @Override
-    public void removeWord(Word requestedWord) {
+    public void removeCard(Card requestedCard) {
 
     }
 
     @Override
-    public void addNewWord() {
-        wordsView.showAddWord();
+    public void addNewCard() {
+        wordsView.showAddCard();
     }
 
     @Override
@@ -41,7 +41,7 @@ public class WordsPresenter implements CardsContract.Presenter {
                 && Activity.RESULT_OK == resultCode) {
             data.getStringExtra(AddWordDialogFragment.EXTRA_WORD);
             if (wordsView != null) {
-                wordsView.showSuccessfullyAddedWord();
+                wordsView.showSuccessfullyAddedCard();
             }
         }
     }
