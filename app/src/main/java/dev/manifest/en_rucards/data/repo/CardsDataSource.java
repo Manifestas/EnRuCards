@@ -9,9 +9,11 @@ public interface CardsDataSource {
 
     void getCards(@NonNull LoadCardCallback callback);
 
-    void getCard(@NonNull String taskId, @NonNull GetCardCallback callback);
+    void getCard(@NonNull String cardId, @NonNull GetCardCallback callback);
 
-    void saveCard(@NonNull Card task);
+    void getCardByOriginalWord(@NonNull String word, @NonNull GetCardCallback callback);
+
+    void saveCard(@NonNull Card card);
 
     void deleteCard(@NonNull String cardId);
 

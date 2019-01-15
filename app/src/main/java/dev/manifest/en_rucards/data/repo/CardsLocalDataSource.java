@@ -44,12 +44,17 @@ public class CardsLocalDataSource implements CardsDataSource {
     }
 
     @Override
-    public void getCard(@NonNull String taskId, @NonNull GetCardCallback callback) {
+    public void getCard(@NonNull String cardId, @NonNull GetCardCallback callback) {
 
     }
 
     @Override
-    public void saveCard(@NonNull Card task) {
+    public void getCardByOriginalWord(@NonNull String word, @NonNull GetCardCallback callback) {
+
+    }
+
+    @Override
+    public void saveCard(@NonNull Card card) {
 
     }
 
