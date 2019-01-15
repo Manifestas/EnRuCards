@@ -5,23 +5,24 @@ import android.util.Log;
 import java.io.IOException;
 
 import javax.inject.Inject;
+import javax.inject.Singleton;
 
 import androidx.annotation.Nullable;
-import dev.manifest.en_rucards.App;
 import okhttp3.Authenticator;
 import okhttp3.Request;
 import okhttp3.Response;
 import okhttp3.Route;
 
+@Singleton
 public class TokenAuthenticator implements Authenticator {
 
     private static final String TAG = TokenAuthenticator.class.getSimpleName();
 
-    @Inject
     LingvoTokenManager tokenManager;
 
-    public TokenAuthenticator() {
-        tokenManager = App.getAppComponent().getLingvoTokenManager();
+    @Inject
+    public TokenAuthenticator(LingvoTokenManager tokenManager) {
+        this.tokenManager = tokenManager;
     }
 
     @Nullable

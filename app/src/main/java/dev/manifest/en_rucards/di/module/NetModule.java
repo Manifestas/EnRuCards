@@ -37,7 +37,7 @@ public class NetModule {
     @Singleton
     OkHttpClient provideAuthOkHttpClient(HttpLoggingInterceptor interceptor) {
         OkHttpClient.Builder client = new OkHttpClient.Builder();
-        client.authenticator(new TokenAuthenticator());
+        client.authenticator(new TokenAuthenticator(provideLingvoTokenManager()));
         client.addInterceptor(new TokenInterceptor());
         client.addInterceptor(interceptor);
         return client.build();
