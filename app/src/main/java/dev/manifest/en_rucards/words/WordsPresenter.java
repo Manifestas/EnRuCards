@@ -39,7 +39,7 @@ public class WordsPresenter implements CardsContract.Presenter {
         // If a word was successfully added, show snackbar
         if (CardsFragment.REQUEST_NEW_WORD == requestCode
                 && Activity.RESULT_OK == resultCode) {
-            data.getStringExtra(AddWordDialogFragment.EXTRA_WORD);
+            data.getStringExtra(AddCardDialogFragment.EXTRA_WORD);
             if (wordsView != null) {
                 wordsView.showSuccessfullyAddedCard();
             }
