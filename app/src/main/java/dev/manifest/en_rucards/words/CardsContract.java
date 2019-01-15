@@ -10,7 +10,7 @@ import dev.manifest.en_rucards.data.model.Word;
 /**
  * This specifies the contract between the view and the presenter.
  */
-public interface WordsContract {
+public interface CardsContract {
 
     interface View {
 

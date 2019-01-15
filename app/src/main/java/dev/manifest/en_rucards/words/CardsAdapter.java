@@ -13,7 +13,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import dev.manifest.en_rucards.R;
 import dev.manifest.en_rucards.data.model.Word;
 
-public class WordsAdapter extends RecyclerView.Adapter<WordsAdapter.WordsViewHolder> {
+public class CardsAdapter extends RecyclerView.Adapter<CardsAdapter.CardsViewHolder> {
 
     private List<Word> words = new ArrayList<>();
 
@@ -22,14 +22,14 @@ public class WordsAdapter extends RecyclerView.Adapter<WordsAdapter.WordsViewHol
      */
     @NonNull
     @Override
-    public WordsViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public CardsViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater layoutInflater = LayoutInflater.from(parent.getContext());
         View view = layoutInflater.inflate(R.layout.word_list_item, parent, false);
-        return new WordsViewHolder(view);
+        return new CardsViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull WordsViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull CardsViewHolder holder, int position) {
         Word currentWord = words.get(position);
         holder.bind(currentWord);
     }
@@ -45,12 +45,12 @@ public class WordsAdapter extends RecyclerView.Adapter<WordsAdapter.WordsViewHol
     }
 
 
-    public class WordsViewHolder extends RecyclerView.ViewHolder {
+    public class CardsViewHolder extends RecyclerView.ViewHolder {
 
         private final TextView ruWordTextView;
         private final TextView enWordTextView;
 
-        public WordsViewHolder(@NonNull View itemView) {
+        public CardsViewHolder(@NonNull View itemView) {
             super(itemView);
             ruWordTextView = itemView.findViewById(R.id.tv_en_word);
             enWordTextView = itemView.findViewById(R.id.tv_ru_word);

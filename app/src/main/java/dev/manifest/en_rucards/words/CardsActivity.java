@@ -3,22 +3,18 @@ package dev.manifest.en_rucards.words;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.android.material.snackbar.Snackbar;
 
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import dev.manifest.en_rucards.R;
 import dev.manifest.en_rucards.common.SingleFragmentActivity;
 
-public class WordsActivity extends SingleFragmentActivity {
+public class CardsActivity extends SingleFragmentActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_words);
+        setContentView(R.layout.activity_cards);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
@@ -48,6 +44,6 @@ public class WordsActivity extends SingleFragmentActivity {
 
     @Override
     protected Fragment createFragment() {
-        return WordsFragment.newInstance();
+        return CardsFragment.newInstance();
     }
 }

@@ -33,13 +33,13 @@ import retrofit2.Retrofit;
 
 /**
  * A simple {@link Fragment} subclass.
- * Use the {@link WordsFragment#newInstance} factory method to
+ * Use the {@link CardsFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class WordsFragment extends Fragment implements WordsContract.View {
+public class CardsFragment extends Fragment implements CardsContract.View {
 
     public static final int REQUEST_NEW_WORD = 0;
-    private static final String TAG = WordsFragment.class.getSimpleName();
+    private static final String TAG = CardsFragment.class.getSimpleName();
     private static final String DIALOG_NEW_WORD = "DialogNewWord";
     @Inject
     @Named("auth")
@@ -48,9 +48,9 @@ public class WordsFragment extends Fragment implements WordsContract.View {
     WordsPresenter presenter;
 
     private RecyclerView recyclerView;
-    private WordsAdapter wordsAdapter;
+    private CardsAdapter cardsAdapter;
 
-    public WordsFragment() {
+    public CardsFragment() {
         // Required empty public constructor
     }
 
@@ -58,10 +58,10 @@ public class WordsFragment extends Fragment implements WordsContract.View {
      * Use this factory method to create a new instance of
      * this fragment.
      *
-     * @return A new instance of fragment WordsFragment.
+     * @return A new instance of fragment CardsFragment.
      */
-    public static WordsFragment newInstance() {
-        return new WordsFragment();
+    public static CardsFragment newInstance() {
+        return new CardsFragment();
     }
 
     @Override
@@ -72,7 +72,7 @@ public class WordsFragment extends Fragment implements WordsContract.View {
         View root = inflater.inflate(R.layout.fragment_words, container, false);
         recyclerView = root.findViewById(R.id.rv_words);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        wordsAdapter = new WordsAdapter();
+        cardsAdapter = new CardsAdapter();
 
         List<Word> words = new ArrayList<>();
         Word word1 = new Word();
@@ -83,8 +83,8 @@ public class WordsFragment extends Fragment implements WordsContract.View {
         word2.setEnWord("commit");
         word2.setRuWord("совершить");
         words.add(word2);
-        wordsAdapter.setData(words);
-        recyclerView.setAdapter(wordsAdapter);
+        cardsAdapter.setData(words);
+        recyclerView.setAdapter(cardsAdapter);
 
         retrofit.create(LingvoApi.class).getTranslation("provided").enqueue(new Callback<Minicard>() {
             @Override

@@ -8,11 +8,11 @@ import javax.inject.Inject;
 import dev.manifest.en_rucards.data.model.Word;
 import dev.manifest.en_rucards.data.repo.CardsRepository;
 
-public class WordsPresenter implements WordsContract.Presenter {
+public class WordsPresenter implements CardsContract.Presenter {
 
     @Inject
     CardsRepository repository;
-    private WordsContract.View wordsView;
+    private CardsContract.View wordsView;
 
     @Override
     public void loadWords() {
@@ -37,7 +37,7 @@ public class WordsPresenter implements WordsContract.Presenter {
     @Override
     public void result(int requestCode, int resultCode, Intent data) {
         // If a word was successfully added, show snackbar
-        if (WordsFragment.REQUEST_NEW_WORD == requestCode
+        if (CardsFragment.REQUEST_NEW_WORD == requestCode
                 && Activity.RESULT_OK == resultCode) {
             data.getStringExtra(AddWordDialogFragment.EXTRA_WORD);
             if (wordsView != null) {
@@ -47,7 +47,7 @@ public class WordsPresenter implements WordsContract.Presenter {
     }
 
     @Override
-    public void takeView(WordsContract.View view) {
+    public void takeView(CardsContract.View view) {
         wordsView = view;
     }
 

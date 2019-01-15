@@ -13,7 +13,7 @@ import dev.manifest.en_rucards.di.module.NetModule;
 import dev.manifest.en_rucards.di.module.PresenterModule;
 import dev.manifest.en_rucards.di.module.SharedPreferenceModule;
 import dev.manifest.en_rucards.network.LingvoTokenManager;
-import dev.manifest.en_rucards.words.WordsFragment;
+import dev.manifest.en_rucards.words.CardsFragment;
 import retrofit2.Retrofit;
 
 @Singleton
@@ -26,7 +26,7 @@ public interface AppComponent {
 
     void injectInto(Application holder);
 
-    void injectInto(WordsFragment wordsFragment);
+    void injectInto(CardsFragment cardsFragment);
 
     LingvoTokenManager getLingvoTokenManager();
 
