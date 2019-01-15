@@ -19,4 +19,8 @@ public interface CardDao {
 
     @Query("SELECT * FROM card WHERE id = :cardId")
     Card getCardById(long cardId);
+
+    @Query("SELECT * FROM card WHERE original_word = :originalWord")
+    Card getCardByOriginalWord(String originalWord);
+
 }

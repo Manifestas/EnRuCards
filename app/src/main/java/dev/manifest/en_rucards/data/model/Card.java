@@ -2,6 +2,7 @@ package dev.manifest.en_rucards.data.model;
 
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
+import androidx.room.Ignore;
 import androidx.room.Index;
 import androidx.room.PrimaryKey;
 
@@ -18,6 +19,11 @@ public class Card {
 
     @ColumnInfo(name = "sound_name")
     private String soundName;
+
+    @Ignore
+    public Card(String originalWord) {
+        this.originalWord = originalWord;
+    }
 
     public Card(String originalWord, String translate, String soundName) {
         this.originalWord = originalWord;
