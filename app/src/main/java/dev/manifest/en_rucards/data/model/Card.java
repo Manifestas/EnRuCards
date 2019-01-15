@@ -19,6 +19,10 @@ public class Card {
     @ColumnInfo(name = "sound_name")
     private String soundName;
 
+    public Card(String originalWord) {
+        this.originalWord = originalWord;
+    }
+
     public Card(String originalWord, String translate, String soundName) {
         this.originalWord = originalWord;
         this.translate = translate;
