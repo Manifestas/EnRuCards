@@ -3,10 +3,15 @@ package dev.manifest.en_rucards.words;
 import android.app.Activity;
 import android.content.Intent;
 
+import javax.inject.Inject;
+
 import dev.manifest.en_rucards.data.model.Word;
+import dev.manifest.en_rucards.data.repo.CardsRepository;
 
 public class WordsPresenter implements WordsContract.Presenter {
 
+    @Inject
+    CardsRepository repository;
     private WordsContract.View wordsView;
 
     @Override
