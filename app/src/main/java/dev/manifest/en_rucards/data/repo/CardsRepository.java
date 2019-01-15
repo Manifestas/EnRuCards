@@ -48,7 +48,30 @@ public class CardsRepository implements CardsDataSource {
 
     @Override
     public void saveCard(@NonNull Card card) {
+        final String originalWord = card.getOriginalWord();
+        localDataSource.getCardByOriginalWord(originalWord,
+                new GetCardCallback() {
+                    @Override
+                    public void onCardLoaded(Card card) {
+                        // card already in db
+                    }
 
+                    @Override
+                    public void onDataNotAvailable() {
+                        remoteDataSource.getCardByOriginalWord(originalWord,
+                                new GetCardCallback() {
+                                    @Override
+                                    public void onCardLoaded(Card card) {
+                                        localDataSource.saveCard(card);
+                                    }
+
+                                    @Override
+                                    public void onDataNotAvailable() {
+
+                                    }
+                                });
+                    }
+                });
     }
 
     @Override

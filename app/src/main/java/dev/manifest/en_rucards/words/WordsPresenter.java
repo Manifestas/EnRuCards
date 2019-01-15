@@ -53,9 +53,10 @@ public class WordsPresenter implements CardsContract.Presenter {
         // If a word was successfully added, show snackbar
         if (CardsFragment.REQUEST_NEW_WORD == requestCode
                 && Activity.RESULT_OK == resultCode) {
-            data.getStringExtra(AddCardDialogFragment.EXTRA_WORD);
+            String ruWord = data.getStringExtra(AddCardDialogFragment.EXTRA_WORD);
             if (wordsView != null) {
                 wordsView.showSuccessfullyAddedCard();
+                repository.saveCard(new Card(ruWord));
             }
         }
     }
