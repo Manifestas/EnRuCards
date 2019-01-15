@@ -10,7 +10,6 @@ import android.view.ViewGroup;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -25,7 +24,6 @@ import dev.manifest.en_rucards.App;
 import dev.manifest.en_rucards.R;
 import dev.manifest.en_rucards.data.model.Card;
 import dev.manifest.en_rucards.data.model.Minicard;
-import dev.manifest.en_rucards.data.model.Word;
 import dev.manifest.en_rucards.network.LingvoApi;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -71,20 +69,10 @@ public class CardsFragment extends Fragment implements CardsContract.View {
         App.getAppComponent().injectInto(this);
         // Inflate the layout for this fragment
         View root = inflater.inflate(R.layout.fragment_words, container, false);
-        recyclerView = root.findViewById(R.id.rv_words);
+        recyclerView = root.findViewById(R.id.rv_cards);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         cardsAdapter = new CardsAdapter();
 
-        List<Word> words = new ArrayList<>();
-        Word word1 = new Word();
-        word1.setEnWord("truncated");
-        word1.setRuWord("усеченный");
-        words.add(word1);
-        Word word2 = new Word();
-        word2.setEnWord("commit");
-        word2.setRuWord("совершить");
-        words.add(word2);
-        cardsAdapter.setData(words);
         recyclerView.setAdapter(cardsAdapter);
 
         retrofit.create(LingvoApi.class).getTranslation("provided").enqueue(new Callback<Minicard>() {
@@ -137,7 +125,7 @@ public class CardsFragment extends Fragment implements CardsContract.View {
     }
 
     @Override
-    public void showCards(List<Card> words) {
+    public void showCards(List<Card> cards) {
 
     }
 
