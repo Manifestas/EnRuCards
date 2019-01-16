@@ -13,6 +13,7 @@ import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
+import retrofit2.converter.scalars.ScalarsConverterFactory;
 
 @Module
 public class NetModule {
@@ -36,7 +37,7 @@ public class NetModule {
     @Singleton
     OkHttpClient provideAuthOkHttpClient(HttpLoggingInterceptor interceptor) {
         OkHttpClient.Builder client = new OkHttpClient.Builder();
-        client.authenticator(new TokenAuthenticator());
+        client.authenticator(new TokenAuthenticator(provideLingvoTokenManager()));
         client.addInterceptor(new TokenInterceptor());
         client.addInterceptor(interceptor);
         return client.build();
@@ -68,7 +69,7 @@ public class NetModule {
     Retrofit provideRetrofit(@Named("non_auth") OkHttpClient client) {
         return new Retrofit.Builder()
                 .baseUrl(BuildConfig.API_URL)
-                .addConverterFactory(GsonConverterFactory.create())
+                .addConverterFactory(ScalarsConverterFactory.create())
                 .client(client)
                 .build();
     }

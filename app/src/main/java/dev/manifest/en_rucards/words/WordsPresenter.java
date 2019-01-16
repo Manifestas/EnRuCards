@@ -3,46 +3,66 @@ package dev.manifest.en_rucards.words;
 import android.app.Activity;
 import android.content.Intent;
 
-import dev.manifest.en_rucards.data.model.Word;
+import java.util.List;
 
-public class WordsPresenter implements WordsContract.Presenter {
+import javax.inject.Inject;
 
-    private WordsContract.View wordsView;
+import dev.manifest.en_rucards.data.model.Card;
+import dev.manifest.en_rucards.data.repo.CardsDataSource;
+import dev.manifest.en_rucards.data.repo.CardsRepository;
+
+public class WordsPresenter implements CardsContract.Presenter {
+
+    @Inject
+    CardsRepository repository;
+    private CardsContract.View wordsView;
 
     @Override
-    public void loadWords() {
+    public void loadCards() {
+        repository.getCards(new CardsDataSource.LoadCardCallback() {
+            @Override
+            public void onCardsLoaded(List<Card> cards) {
+                wordsView.showCards(cards);
+            }
+
+            @Override
+            public void onDataNotAvailable() {
+
+            }
+        });
 
     }
 
     @Override
-    public void openWordDetail(Word requestedWord) {
+    public void openCardDetail(Card requestedCard) {
 
     }
 
     @Override
-    public void removeWord(Word requestedWord) {
+    public void removeCard(Card requestedCard) {
 
     }
 
     @Override
-    public void addNewWord() {
-
+    public void addNewCard() {
+        wordsView.showAddCard();
     }
 
     @Override
     public void result(int requestCode, int resultCode, Intent data) {
         // If a word was successfully added, show snackbar
-        if (WordsFragment.REQUEST_NEW_WORD == requestCode
+        if (CardsFragment.REQUEST_NEW_WORD == requestCode
                 && Activity.RESULT_OK == resultCode) {
-            data.getStringExtra(AddWordDialogFragment.EXTRA_WORD);
+            String ruWord = data.getStringExtra(AddCardDialogFragment.EXTRA_WORD);
             if (wordsView != null) {
-                wordsView.showSuccessfullyAddedWord();
+                wordsView.showSuccessfullyAddedCard();
+                repository.saveCard(new Card(ruWord));
             }
         }
     }
 
     @Override
-    public void takeView(WordsContract.View view) {
+    public void takeView(CardsContract.View view) {
         wordsView = view;
     }
 

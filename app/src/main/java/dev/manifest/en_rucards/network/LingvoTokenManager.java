@@ -83,16 +83,8 @@ public class LingvoTokenManager implements TokenManager {
 
     @Override
     public String refreshToken() {
-        Response<String> tokenResponse;
-        try {
-            Log.d(TAG, "refreshToken: get new token from api.");
-            tokenResponse = retrofit.create(LingvoApi.class).getAuthToken().execute();
-        } catch (IOException e) {
-            Log.d(TAG, "refreshToken: " + e);
-            return null;
-        }
-        String newAccessToken = tokenResponse.body();
-        if (tokenResponse.isSuccessful() && newAccessToken != null) {
+        String newAccessToken = downloadToken();
+        if (newAccessToken != null) {
             Log.d(TAG, "refreshToken: request successful.");
             token = newAccessToken;
             Calendar calendar = Calendar.getInstance();
@@ -109,5 +101,21 @@ public class LingvoTokenManager implements TokenManager {
         editor.putString(ACCESS_TOKEN, token);
         editor.putLong(TOKEN_EXPIRE_TIME, expireTime);
         editor.apply();
+    }
+
+    private String downloadToken() {
+        Response<String> tokenResponse;
+        String newAccessToken = null;
+        try {
+            Log.d(TAG, "downloadToken: getting new token from api.");
+            tokenResponse = retrofit.create(LingvoApi.class).getAuthToken().execute();
+        } catch (IOException e) {
+            Log.d(TAG, "downloadToken: exception - " + e);
+            return null;
+        }
+        if (tokenResponse.isSuccessful()) {
+            newAccessToken = tokenResponse.body();
+        }
+        return newAccessToken;
     }
 }

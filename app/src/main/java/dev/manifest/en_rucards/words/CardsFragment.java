@@ -10,7 +10,6 @@ import android.view.ViewGroup;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -23,8 +22,8 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import dev.manifest.en_rucards.App;
 import dev.manifest.en_rucards.R;
+import dev.manifest.en_rucards.data.model.Card;
 import dev.manifest.en_rucards.data.model.Minicard;
-import dev.manifest.en_rucards.data.model.Word;
 import dev.manifest.en_rucards.network.LingvoApi;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -33,13 +32,13 @@ import retrofit2.Retrofit;
 
 /**
  * A simple {@link Fragment} subclass.
- * Use the {@link WordsFragment#newInstance} factory method to
+ * Use the {@link CardsFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class WordsFragment extends Fragment implements WordsContract.View {
+public class CardsFragment extends Fragment implements CardsContract.View {
 
     public static final int REQUEST_NEW_WORD = 0;
-    private static final String TAG = WordsFragment.class.getSimpleName();
+    private static final String TAG = CardsFragment.class.getSimpleName();
     private static final String DIALOG_NEW_WORD = "DialogNewWord";
     @Inject
     @Named("auth")
@@ -48,9 +47,9 @@ public class WordsFragment extends Fragment implements WordsContract.View {
     WordsPresenter presenter;
 
     private RecyclerView recyclerView;
-    private WordsAdapter wordsAdapter;
+    private CardsAdapter cardsAdapter;
 
-    public WordsFragment() {
+    public CardsFragment() {
         // Required empty public constructor
     }
 
@@ -58,35 +57,25 @@ public class WordsFragment extends Fragment implements WordsContract.View {
      * Use this factory method to create a new instance of
      * this fragment.
      *
-     * @return A new instance of fragment WordsFragment.
+     * @return A new instance of fragment CardsFragment.
      */
-    public static WordsFragment newInstance() {
-        return new WordsFragment();
+    public static CardsFragment newInstance() {
+        return new CardsFragment();
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                                          Bundle savedInstanceState) {
+                             Bundle savedInstanceState) {
         App.getAppComponent().injectInto(this);
         // Inflate the layout for this fragment
         View root = inflater.inflate(R.layout.fragment_words, container, false);
-        recyclerView = root.findViewById(R.id.rv_words);
+        recyclerView = root.findViewById(R.id.rv_cards);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        wordsAdapter = new WordsAdapter();
+        cardsAdapter = new CardsAdapter();
 
-        List<Word> words = new ArrayList<>();
-        Word word1 = new Word();
-        word1.setEnWord("truncated");
-        word1.setRuWord("усеченный");
-        words.add(word1);
-        Word word2 = new Word();
-        word2.setEnWord("commit");
-        word2.setRuWord("совершить");
-        words.add(word2);
-        wordsAdapter.setData(words);
-        recyclerView.setAdapter(wordsAdapter);
+        recyclerView.setAdapter(cardsAdapter);
 
-        retrofit.create(LingvoApi.class).getTranslation("четыре").enqueue(new Callback<Minicard>() {
+        retrofit.create(LingvoApi.class).getTranslation("provided").enqueue(new Callback<Minicard>() {
             @Override
             public void onResponse(Call<Minicard> call, Response<Minicard> response) {
                 Minicard body = response.body();
@@ -102,6 +91,8 @@ public class WordsFragment extends Fragment implements WordsContract.View {
             }
         });
 
+        presenter.loadCards();
+
         return root;
     }
 
@@ -112,7 +103,7 @@ public class WordsFragment extends Fragment implements WordsContract.View {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                presenter.addNewWord();
+                presenter.addNewCard();
             }
         });
     }
@@ -136,20 +127,20 @@ public class WordsFragment extends Fragment implements WordsContract.View {
     }
 
     @Override
-    public void showWords(List<Word> words) {
-
+    public void showCards(List<Card> cards) {
+        cardsAdapter.setData(cards);
     }
 
     @Override
-    public void showAddWord() {
-        FragmentManager manager = getFragmentManager();
-        AddWordDialogFragment dialog = AddWordDialogFragment.newInstance();
+    public void showAddCard() {
+        FragmentManager manager = getChildFragmentManager();
+        AddCardDialogFragment dialog = AddCardDialogFragment.newInstance();
         dialog.setTargetFragment(this, REQUEST_NEW_WORD);
         dialog.show(manager, DIALOG_NEW_WORD);
     }
 
     @Override
-    public void showSuccessfullyAddedWord() {
+    public void showSuccessfullyAddedCard() {
         showMessage(getString(R.string.word_added));
     }
 
