@@ -16,7 +16,7 @@ import dev.manifest.en_rucards.data.repo.CardsRemoteDataSource;
 import retrofit2.Retrofit;
 
 @Module
-public class CardsRepositoryModule {
+public class CardsModule {
 
     @Provides
     @Singleton

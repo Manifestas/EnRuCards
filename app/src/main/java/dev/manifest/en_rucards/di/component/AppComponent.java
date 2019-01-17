@@ -7,7 +7,7 @@ import javax.inject.Singleton;
 
 import dagger.Component;
 import dev.manifest.en_rucards.di.module.AppModule;
-import dev.manifest.en_rucards.di.module.CardsRepositoryModule;
+import dev.manifest.en_rucards.di.module.CardsModule;
 import dev.manifest.en_rucards.di.module.NetModule;
 import dev.manifest.en_rucards.di.module.PresenterModule;
 import dev.manifest.en_rucards.network.LingvoTokenManager;
@@ -18,7 +18,7 @@ import retrofit2.Retrofit;
 @Component(modules = {AppModule.class,
         NetModule.class,
         PresenterModule.class,
-        CardsRepositoryModule.class})
+        CardsModule.class})
 public interface AppComponent {
 
     void injectInto(CardsFragment cardsFragment);
