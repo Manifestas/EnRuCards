@@ -6,16 +6,22 @@ import android.content.Intent;
 import java.util.List;
 
 import javax.inject.Inject;
+import javax.inject.Singleton;
 
 import dev.manifest.en_rucards.data.model.Card;
 import dev.manifest.en_rucards.data.repo.CardsDataSource;
 import dev.manifest.en_rucards.data.repo.CardsRepository;
 
+@Singleton
 public class WordsPresenter implements CardsContract.Presenter {
 
-    @Inject
     CardsRepository repository;
     private CardsContract.View wordsView;
+
+    @Inject
+    public WordsPresenter(CardsRepository repo) {
+        repository = repo;
+    }
 
     @Override
     public void loadCards() {

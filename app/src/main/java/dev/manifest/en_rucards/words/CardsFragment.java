@@ -75,6 +75,7 @@ public class CardsFragment extends Fragment implements CardsContract.View {
 
         recyclerView.setAdapter(cardsAdapter);
 
+        /*
         retrofit.create(LingvoApi.class).getTranslation("provided").enqueue(new Callback<Minicard>() {
             @Override
             public void onResponse(Call<Minicard> call, Response<Minicard> response) {
@@ -90,6 +91,7 @@ public class CardsFragment extends Fragment implements CardsContract.View {
                 Log.d(TAG, "onFailure: " + t);
             }
         });
+        */
 
         presenter.loadCards();
 
