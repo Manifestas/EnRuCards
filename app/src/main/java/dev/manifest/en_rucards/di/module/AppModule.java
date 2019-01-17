@@ -1,6 +1,8 @@
 package dev.manifest.en_rucards.di.module;
 
 import android.app.Application;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 
 import javax.inject.Singleton;
 
@@ -10,15 +12,21 @@ import dagger.Provides;
 @Module
 public class AppModule {
 
-    Application mApplication;
+    private Application application;
 
     public AppModule(Application application) {
-        mApplication = application;
+        this.application = application;
     }
 
     @Provides
     @Singleton
     Application provideApplication() {
-        return mApplication;
+        return application;
+    }
+
+    @Provides
+    @Singleton
+    SharedPreferences provideSharedPreferences() {
+        return PreferenceManager.getDefaultSharedPreferences(application);
     }
 }
