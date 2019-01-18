@@ -39,9 +39,10 @@ public class CardsFragment extends Fragment implements CardsContract.View {
     Retrofit retrofit;
     @Inject
     CardsPresenter presenter;
+    @Inject
+    CardsAdapter cardsAdapter;
 
     private RecyclerView recyclerView;
-    private CardsAdapter cardsAdapter;
 
     public CardsFragment() {
         // Required empty public constructor
@@ -70,27 +71,7 @@ public class CardsFragment extends Fragment implements CardsContract.View {
         View root = inflater.inflate(R.layout.fragment_words, container, false);
         recyclerView = root.findViewById(R.id.rv_cards);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        cardsAdapter = new CardsAdapter();
-
         recyclerView.setAdapter(cardsAdapter);
-
-        /*
-        retrofit.create(LingvoApi.class).getTranslation("provided").enqueue(new Callback<Minicard>() {
-            @Override
-            public void onResponse(Call<Minicard> call, Response<Minicard> response) {
-                Minicard body = response.body();
-                if (body != null) {
-                    Log.d(TAG, body.getHeading());
-                    Log.d(TAG, body.getTranslation().getTranslation());
-                }
-            }
-
-            @Override
-            public void onFailure(Call<Minicard> call, Throwable t) {
-                Log.d(TAG, "onFailure: " + t);
-            }
-        });
-        */
 
         presenter.loadCards();
 
@@ -101,12 +82,7 @@ public class CardsFragment extends Fragment implements CardsContract.View {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         FloatingActionButton fab = getActivity().findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                presenter.addNewCard();
-            }
-        });
+        fab.setOnClickListener(view -> presenter.addNewCard());
     }
 
     @Override

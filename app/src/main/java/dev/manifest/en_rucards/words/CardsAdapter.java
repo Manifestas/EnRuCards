@@ -8,6 +8,8 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.inject.Inject;
+
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 import dev.manifest.en_rucards.R;
@@ -16,6 +18,11 @@ import dev.manifest.en_rucards.data.model.Card;
 public class CardsAdapter extends RecyclerView.Adapter<CardsAdapter.CardsViewHolder> {
 
     private List<Card> cards = new ArrayList<>();
+
+    @Inject
+    public CardsAdapter(){
+
+    }
 
     /**
      * This gets called when each new ViewHolder is created.
