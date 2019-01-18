@@ -38,7 +38,7 @@ public class CardsFragment extends Fragment implements CardsContract.View {
     @Named("auth")
     Retrofit retrofit;
     @Inject
-    WordsPresenter presenter;
+    CardsPresenter presenter;
 
     private RecyclerView recyclerView;
     private CardsAdapter cardsAdapter;

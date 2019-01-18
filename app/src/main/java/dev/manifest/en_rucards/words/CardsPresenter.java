@@ -14,13 +14,13 @@ import dev.manifest.en_rucards.data.repo.CardsDataSource;
 import dev.manifest.en_rucards.data.repo.CardsRepository;
 
 @Singleton
-public class WordsPresenter implements CardsContract.Presenter {
+public class CardsPresenter implements CardsContract.Presenter {
 
     private CardsRepository repository;
     private CardsContract.View wordsView;
 
     @Inject
-    public WordsPresenter(CardsRepository repo) {
+    public CardsPresenter(CardsRepository repo) {
         repository = repo;
     }
 
