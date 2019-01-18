@@ -12,17 +12,20 @@ import javax.inject.Singleton;
 import androidx.annotation.NonNull;
 import dev.manifest.en_rucards.data.db.CardDao;
 import dev.manifest.en_rucards.data.model.Card;
+import dev.manifest.en_rucards.util.AppExecutors;
 
 @Singleton
 public class CardsLocalDataSource implements CardsDataSource {
 
     private CardDao dao;
+    private AppExecutors executors;
     private Handler mainThreadHandler = new Handler(Looper.getMainLooper());
     private Handler backgroundHandler = new Handler();
 
     @Inject
-    public CardsLocalDataSource(CardDao dao) {
+    public CardsLocalDataSource(CardDao dao, AppExecutors executors) {
         this.dao = dao;
+        this.executors = executors;
     }
 
     @Override
