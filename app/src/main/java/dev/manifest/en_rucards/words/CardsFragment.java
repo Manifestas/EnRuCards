@@ -140,10 +140,12 @@ public class CardsFragment extends Fragment implements CardsContract.View {
 
     @Override
     public void showAddCard() {
-        FragmentManager manager = getChildFragmentManager();
-        AddCardDialogFragment dialog = AddCardDialogFragment.newInstance();
-        dialog.setTargetFragment(this, REQUEST_NEW_WORD);
-        dialog.show(manager, DIALOG_NEW_WORD);
+        FragmentManager manager = getFragmentManager();
+        if (manager != null) {
+            AddCardDialogFragment dialog = AddCardDialogFragment.newInstance();
+            dialog.setTargetFragment(this, REQUEST_NEW_WORD);
+            dialog.show(manager, DIALOG_NEW_WORD);
+        }
     }
 
     @Override
