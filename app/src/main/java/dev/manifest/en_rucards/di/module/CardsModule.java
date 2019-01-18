@@ -15,7 +15,7 @@ import dev.manifest.en_rucards.data.repo.CardsLocalDataSource;
 import dev.manifest.en_rucards.data.repo.CardsRemoteDataSource;
 import retrofit2.Retrofit;
 
-@Module
+@Module(includes = {AppModule.class, NetModule.class})
 public class CardsModule {
 
     @Provides

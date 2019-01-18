@@ -7,18 +7,17 @@ import javax.inject.Named;
 import javax.inject.Singleton;
 
 import androidx.annotation.NonNull;
-import androidx.room.Ignore;
 import dev.manifest.en_rucards.data.model.Card;
 
 @Singleton
 public class CardsRepository implements CardsDataSource {
 
-    CardsDataSource localDataSource;
-    CardsDataSource remoteDataSource;
+    private CardsDataSource localDataSource;
+    private CardsDataSource remoteDataSource;
 
     @Inject
-    public CardsRepository(@Named("local") CardsDataSource localDataSource,
-                           @Named("remote") CardsDataSource remoteDataSource) {
+    public CardsRepository(CardsLocalDataSource localDataSource,
+                           CardsRemoteDataSource remoteDataSource) {
         this.localDataSource = localDataSource;
         this.remoteDataSource = remoteDataSource;
     }

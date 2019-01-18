@@ -7,11 +7,13 @@ import android.os.Looper;
 import java.util.List;
 
 import javax.inject.Inject;
+import javax.inject.Singleton;
 
 import androidx.annotation.NonNull;
 import dev.manifest.en_rucards.data.db.CardDao;
 import dev.manifest.en_rucards.data.model.Card;
 
+@Singleton
 public class CardsLocalDataSource implements CardsDataSource {
 
     private CardDao dao;

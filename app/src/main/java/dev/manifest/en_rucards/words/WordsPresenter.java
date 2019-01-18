@@ -15,7 +15,7 @@ import dev.manifest.en_rucards.data.repo.CardsRepository;
 @Singleton
 public class WordsPresenter implements CardsContract.Presenter {
 
-    CardsRepository repository;
+    private CardsRepository repository;
     private CardsContract.View wordsView;
 
     @Inject

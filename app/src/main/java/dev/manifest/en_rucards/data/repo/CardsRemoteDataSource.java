@@ -2,11 +2,13 @@ package dev.manifest.en_rucards.data.repo;
 
 import javax.inject.Inject;
 import javax.inject.Named;
+import javax.inject.Singleton;
 
 import androidx.annotation.NonNull;
 import dev.manifest.en_rucards.data.model.Card;
 import retrofit2.Retrofit;
 
+@Singleton
 public class CardsRemoteDataSource implements CardsDataSource {
 
     private Retrofit retrofit;
