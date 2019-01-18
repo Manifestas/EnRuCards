@@ -25,22 +25,16 @@ public class CardsLocalDataSource implements CardsDataSource {
 
     @Override
     public void getCards(@NonNull final LoadCardCallback callback) {
-        executors.diskIO().execute(new Runnable() {
-            @Override
-            public void run() {
-                final List<Card> cards = dao.getAllCards();
+        executors.diskIO().execute(() -> {
+            final List<Card> cards = dao.getAllCards();
 
-                executors.mainThread().execute(new Runnable() {
-                    @Override
-                    public void run() {
-                        if (cards.isEmpty()) {
-                            callback.onDataNotAvailable();
-                        } else {
-                            callback.onCardsLoaded(cards);
-                        }
-                    }
-                });
-            }
+            executors.mainThread().execute(() -> {
+                if (cards.isEmpty()) {
+                    callback.onDataNotAvailable();
+                } else {
+                    callback.onCardsLoaded(cards);
+                }
+            });
         });
     }
 
@@ -50,13 +44,26 @@ public class CardsLocalDataSource implements CardsDataSource {
     }
 
     @Override
-    public void getCardByOriginalWord(@NonNull String word, @NonNull GetCardCallback callback) {
+    public void getCardByOriginalWord(@NonNull final String word, @NonNull GetCardCallback callback) {
+        executors.diskIO().execute(() -> {
+            Card searchedCard = dao.getCardByOriginalWord(word);
+
+            executors.mainThread().execute(() -> {
+                if (searchedCard != null) {
+                    callback.onCardLoaded(searchedCard);
+                } else {
+                    callback.onDataNotAvailable();
+                }
+            });
+        });
 
     }
 
     @Override
     public void saveCard(@NonNull Card card) {
-
+        executors.diskIO().execute(() -> {
+            dao.insertCard(card);
+        });
     }
 
     @Override
