@@ -10,31 +10,25 @@ import java.util.Date;
 import javax.inject.Inject;
 import javax.inject.Named;
 
-import dev.manifest.en_rucards.App;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 
 public class LingvoTokenManager implements TokenManager {
-    
-    private static final String TAG = LingvoTokenManager.class.getSimpleName();
 
     public static final String ACCESS_TOKEN = "accessToken";
     public static final String TOKEN_EXPIRE_TIME = "tokenExpireTime";
     public static final int DAYS_BEFORE_TOKEN_EXPIRES = 1;
-
-    @Inject
-    SharedPreferences sharedPreferences;
-
-    @Inject
-    @Named("non_auth")
-    Retrofit retrofit;
+    private static final String TAG = LingvoTokenManager.class.getSimpleName();
+    private SharedPreferences sharedPreferences;
+    private Retrofit retrofit;
 
     private String token;
     private long expireTime;
 
-    public LingvoTokenManager() {
-        sharedPreferences = App.getAppComponent().getSharedPreference();
-        retrofit = App.getAppComponent().getRetrofit();
+    @Inject
+    public LingvoTokenManager(SharedPreferences sharedPreferences, @Named("non_auth") Retrofit retrofit) {
+        this.sharedPreferences = sharedPreferences;
+        this.retrofit = retrofit;
     }
 
     @Override

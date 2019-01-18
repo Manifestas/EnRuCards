@@ -1,5 +1,7 @@
 package dev.manifest.en_rucards.di.module;
 
+import android.content.SharedPreferences;
+
 import java.util.concurrent.Executors;
 
 import javax.inject.Named;
@@ -11,6 +13,7 @@ import dev.manifest.en_rucards.BuildConfig;
 import dev.manifest.en_rucards.network.LingvoTokenManager;
 import dev.manifest.en_rucards.network.TokenAuthenticator;
 import dev.manifest.en_rucards.network.TokenInterceptor;
+import dev.manifest.en_rucards.network.TokenManager;
 import dev.manifest.en_rucards.util.AppExecutors;
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
@@ -25,8 +28,9 @@ public class NetModule {
 
     @Provides
     @Singleton
-    LingvoTokenManager provideLingvoTokenManager() {
-        return new LingvoTokenManager();
+    TokenManager provideLingvoTokenManager(SharedPreferences preferences,
+                                           @Named("non_auth") Retrofit retrofit) {
+        return new LingvoTokenManager(preferences, retrofit);
     }
 
     @Provides
@@ -40,10 +44,12 @@ public class NetModule {
     @Provides
     @Named("auth")
     @Singleton
-    OkHttpClient provideAuthOkHttpClient(HttpLoggingInterceptor interceptor) {
+    OkHttpClient provideAuthOkHttpClient(HttpLoggingInterceptor interceptor,
+                                         TokenInterceptor tokenInterceptor,
+                                         TokenAuthenticator authenticator) {
         OkHttpClient.Builder client = new OkHttpClient.Builder();
-        client.authenticator(new TokenAuthenticator(provideLingvoTokenManager()));
-        client.addInterceptor(new TokenInterceptor());
+        client.authenticator(authenticator);
+        client.addInterceptor(tokenInterceptor);
         client.addInterceptor(interceptor);
         return client.build();
     }

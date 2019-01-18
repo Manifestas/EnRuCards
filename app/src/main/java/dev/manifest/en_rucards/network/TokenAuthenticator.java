@@ -18,10 +18,10 @@ public class TokenAuthenticator implements Authenticator {
 
     private static final String TAG = TokenAuthenticator.class.getSimpleName();
 
-    LingvoTokenManager tokenManager;
+    private TokenManager tokenManager;
 
     @Inject
-    public TokenAuthenticator(LingvoTokenManager tokenManager) {
+    public TokenAuthenticator(TokenManager tokenManager) {
         this.tokenManager = tokenManager;
     }
 

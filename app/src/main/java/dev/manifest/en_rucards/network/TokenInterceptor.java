@@ -1,30 +1,28 @@
 package dev.manifest.en_rucards.network;
 
-import android.content.SharedPreferences;
 import android.util.Log;
 
 import java.io.IOException;
 
 import javax.inject.Inject;
+import javax.inject.Singleton;
 
-import dev.manifest.en_rucards.App;
 import okhttp3.Interceptor;
 import okhttp3.Request;
 import okhttp3.Response;
 
+@Singleton
 public class TokenInterceptor implements Interceptor {
 
     private static final String TAG = TokenInterceptor.class.getSimpleName();
 
-    @Inject
-    SharedPreferences sharedPreferences;
-    @Inject
-    LingvoTokenManager tokenManager;
+    private TokenManager tokenManager;
 
-    public TokenInterceptor() {
-        sharedPreferences = App.getAppComponent().getSharedPreference();
-        tokenManager = App.getAppComponent().getLingvoTokenManager();
+    @Inject
+    public TokenInterceptor(TokenManager tokenManager) {
+        this.tokenManager = tokenManager;
     }
+
     @Override
     public synchronized Response intercept(Chain chain) throws IOException {
         Request originalRequest = chain.request();
