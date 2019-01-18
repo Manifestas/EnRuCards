@@ -8,6 +8,7 @@ import java.util.List;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
+import dev.manifest.en_rucards.R;
 import dev.manifest.en_rucards.data.model.Card;
 import dev.manifest.en_rucards.data.repo.CardsDataSource;
 import dev.manifest.en_rucards.data.repo.CardsRepository;
@@ -61,7 +62,7 @@ public class WordsPresenter implements CardsContract.Presenter {
                 && Activity.RESULT_OK == resultCode) {
             String ruWord = data.getStringExtra(AddCardDialogFragment.EXTRA_WORD);
             if (wordsView != null) {
-                wordsView.showSuccessfullyAddedCard();
+                wordsView.showSnackbarMessage(R.string.word_added);
                 repository.saveCard(new Card(ruWord));
             }
         }

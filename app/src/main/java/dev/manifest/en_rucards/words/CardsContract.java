@@ -18,7 +18,7 @@ public interface CardsContract {
 
         void showAddCard();
 
-        void showSuccessfullyAddedCard();
+        void showSnackbarMessage(int messageId);
     }
 
     interface Presenter extends BasePresenter<View> {
