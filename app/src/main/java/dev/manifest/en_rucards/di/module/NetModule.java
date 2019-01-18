@@ -1,5 +1,7 @@
 package dev.manifest.en_rucards.di.module;
 
+import java.util.concurrent.Executors;
+
 import javax.inject.Named;
 import javax.inject.Singleton;
 
@@ -9,6 +11,7 @@ import dev.manifest.en_rucards.BuildConfig;
 import dev.manifest.en_rucards.network.LingvoTokenManager;
 import dev.manifest.en_rucards.network.TokenAuthenticator;
 import dev.manifest.en_rucards.network.TokenInterceptor;
+import dev.manifest.en_rucards.util.AppExecutors;
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
@@ -17,6 +20,8 @@ import retrofit2.converter.scalars.ScalarsConverterFactory;
 
 @Module
 public class NetModule {
+
+    private static final int THREAD_COUNT = 3;
 
     @Provides
     @Singleton
@@ -72,5 +77,13 @@ public class NetModule {
                 .addConverterFactory(ScalarsConverterFactory.create())
                 .client(client)
                 .build();
+    }
+
+    @Singleton
+    @Provides
+    AppExecutors provideAppExecutors() {
+        return new AppExecutors(Executors.newSingleThreadExecutor(),
+                Executors.newFixedThreadPool(THREAD_COUNT),
+                new AppExecutors.MainThreadExecutor());
     }
 }
