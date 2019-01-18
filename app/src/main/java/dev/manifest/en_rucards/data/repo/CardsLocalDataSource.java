@@ -1,9 +1,6 @@
 package dev.manifest.en_rucards.data.repo;
 
 
-import android.os.Handler;
-import android.os.Looper;
-
 import java.util.List;
 
 import javax.inject.Inject;
@@ -19,8 +16,6 @@ public class CardsLocalDataSource implements CardsDataSource {
 
     private CardDao dao;
     private AppExecutors executors;
-    private Handler mainThreadHandler = new Handler(Looper.getMainLooper());
-    private Handler backgroundHandler = new Handler();
 
     @Inject
     public CardsLocalDataSource(CardDao dao, AppExecutors executors) {
@@ -30,11 +25,12 @@ public class CardsLocalDataSource implements CardsDataSource {
 
     @Override
     public void getCards(@NonNull final LoadCardCallback callback) {
-        backgroundHandler.post(new Runnable() {
+        executors.diskIO().execute(new Runnable() {
             @Override
             public void run() {
                 final List<Card> cards = dao.getAllCards();
-                mainThreadHandler.post(new Runnable() {
+
+                executors.mainThread().execute(new Runnable() {
                     @Override
                     public void run() {
                         if (cards.isEmpty()) {
