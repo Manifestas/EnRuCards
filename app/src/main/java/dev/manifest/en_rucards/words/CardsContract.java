@@ -32,5 +32,7 @@ public interface CardsContract {
         void addNewCard();
 
         void result(int requestCode, int resultCode, Intent data);
+
+        void playSound(String soundName);
     }
 }

@@ -69,6 +69,11 @@ public class CardsPresenter implements CardsContract.Presenter {
     }
 
     @Override
+    public void playSound(String soundName) {
+
+    }
+
+    @Override
     public void takeView(CardsContract.View view) {
         wordsView = view;
     }
