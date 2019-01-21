@@ -1,5 +1,6 @@
 package dev.manifest.en_rucards.data.repo;
 
+import java.io.InputStream;
 import java.util.List;
 
 import androidx.annotation.NonNull;
@@ -17,6 +18,8 @@ public interface CardsDataSource {
 
     void deleteCard(@NonNull String cardId);
 
+    void getFile(@NonNull String fileName, @NonNull GetFileCallback callback);
+
 
     interface LoadCardCallback {
 
@@ -31,5 +34,12 @@ public interface CardsDataSource {
         void onCardLoaded(Card card);
 
         void onDataNotAvailable();
+    }
+
+    interface GetFileCallback {
+
+        void onFileLoaded(InputStream inputStream);
+
+        void onFileNotAvailable();
     }
 }
