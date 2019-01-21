@@ -1,4 +1,4 @@
-package dev.manifest.en_rucards.word_detail;
+package dev.manifest.en_rucards.card_detail;
 
 import android.os.Bundle;
 
