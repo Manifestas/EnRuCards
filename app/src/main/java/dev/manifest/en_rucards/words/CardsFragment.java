@@ -29,7 +29,8 @@ import retrofit2.Retrofit;
  * Use the {@link CardsFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class CardsFragment extends Fragment implements CardsContract.View {
+public class CardsFragment extends Fragment implements CardsContract.View,
+        CardsAdapter.CardsAdapterOnPlayClickHandler {
 
     public static final int REQUEST_NEW_WORD = 0;
     private static final String TAG = CardsFragment.class.getSimpleName();
@@ -39,8 +40,7 @@ public class CardsFragment extends Fragment implements CardsContract.View {
     Retrofit retrofit;
     @Inject
     CardsPresenter presenter;
-    @Inject
-    CardsAdapter cardsAdapter;
+    private CardsAdapter cardsAdapter;
 
     private RecyclerView recyclerView;
 
@@ -67,6 +67,7 @@ public class CardsFragment extends Fragment implements CardsContract.View {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        cardsAdapter = new CardsAdapter(this);
         // Inflate the layout for this fragment
         View root = inflater.inflate(R.layout.fragment_words, container, false);
         recyclerView = root.findViewById(R.id.rv_cards);
@@ -125,5 +126,10 @@ public class CardsFragment extends Fragment implements CardsContract.View {
 
     private void showMessage(String message) {
         Snackbar.make(recyclerView, message, Snackbar.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onPlayClick(String soundName) {
+
     }
 }
