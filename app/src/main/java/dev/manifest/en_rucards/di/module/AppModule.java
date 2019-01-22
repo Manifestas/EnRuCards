@@ -1,6 +1,7 @@
 package dev.manifest.en_rucards.di.module;
 
 import android.app.Application;
+import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 
@@ -28,5 +29,11 @@ public class AppModule {
     @Singleton
     SharedPreferences provideSharedPreferences() {
         return PreferenceManager.getDefaultSharedPreferences(application);
+    }
+
+    @Provides
+    @Singleton
+    Context provideContext() {
+        return application.getApplicationContext();
     }
 }

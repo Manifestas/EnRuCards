@@ -9,7 +9,7 @@ import javax.inject.Singleton;
 import androidx.annotation.NonNull;
 import dev.manifest.en_rucards.data.model.Card;
 import dev.manifest.en_rucards.data.model.Minicard;
-import dev.manifest.en_rucards.data.storage.SoundFileStorage;
+import dev.manifest.en_rucards.data.storage.FileStorage;
 import dev.manifest.en_rucards.network.LingvoApi;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
@@ -21,10 +21,10 @@ import retrofit2.Retrofit;
 public class CardsRemoteDataSource implements CardsDataSource {
 
     private Retrofit retrofit;
-    private SoundFileStorage fileStorage;
+    private FileStorage fileStorage;
 
     @Inject
-    public CardsRemoteDataSource(@Named("auth") Retrofit retrofit, SoundFileStorage fileStorage) {
+    public CardsRemoteDataSource(@Named("auth") Retrofit retrofit, FileStorage fileStorage) {
         this.retrofit = retrofit;
         this.fileStorage = fileStorage;
     }

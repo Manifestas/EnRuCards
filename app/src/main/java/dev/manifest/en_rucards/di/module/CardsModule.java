@@ -30,8 +30,8 @@ public class CardsModule {
     @Provides
     @Singleton
     @Named("remote")
-    CardsDataSource provideCardsRemoteDataSource(Retrofit retrofit) {
-        return new CardsRemoteDataSource(retrofit);
+    CardsDataSource provideCardsRemoteDataSource(Retrofit retrofit, FileStorage fileStorage) {
+        return new CardsRemoteDataSource(retrofit, fileStorage);
     }
 
 
