@@ -83,7 +83,9 @@ public class CardsRemoteDataSource implements CardsDataSource {
                 if (response.isSuccessful()) {
                     if (response.body() != null) {
                         InputStream inputStream = response.body().byteStream();
-                        fileStorage.saveFile(card.getSoundName(), inputStream);
+                        String soundName = card.getSoundName();
+                        fileStorage.saveFile(soundName, inputStream);
+                        callback.onFileLoaded(fileStorage.getFilePath(soundName));
                     }
                 } else {
                     callback.onFileNotAvailable();
