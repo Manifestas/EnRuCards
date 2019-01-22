@@ -18,7 +18,7 @@ public interface CardsDataSource {
 
     void deleteCard(@NonNull String cardId);
 
-    void getFile(@NonNull String fileName, @NonNull GetFileCallback callback);
+    void getFile(@NonNull Card card, @NonNull GetFileCallback callback);
 
 
     interface LoadCardCallback {

@@ -41,8 +41,9 @@ public class CardsRemoteDataSource implements CardsDataSource {
                 Minicard minicard = response.body();
                 if (minicard != null) {
                     String translation = minicard.getTranslation().getTranslation();
+                    String dictName = minicard.getTranslation().getDictionaryName();
                     String soundName = minicard.getTranslation().getSoundName();
-                    Card card = new Card(word, translation, soundName);
+                    Card card = new Card(word, translation, dictName, soundName);
                     callback.onCardLoaded(card);
                 } else {
                     callback.onDataNotAvailable();
@@ -64,6 +65,11 @@ public class CardsRemoteDataSource implements CardsDataSource {
 
     @Override
     public void deleteCard(@NonNull String cardId) {
+
+    }
+
+    @Override
+    public void getFile(@NonNull Card card, @NonNull GetFileCallback callback) {
 
     }
 }

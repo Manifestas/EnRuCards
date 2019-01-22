@@ -77,8 +77,8 @@ public class CardsLocalDataSource implements CardsDataSource {
     }
 
     @Override
-    public void getFile(@NonNull String fileName, @NonNull GetFileCallback callback) {
-        InputStream inputStream = fileStorage.getFile(SoundFileStorage.DIR_NAME, fileName);
+    public void getFile(@NonNull Card card, @NonNull GetFileCallback callback) {
+        InputStream inputStream = fileStorage.getFile(SoundFileStorage.DIR_NAME, card.getSoundName());
         if (inputStream == null) {
             callback.onFileNotAvailable();
         } else  {
