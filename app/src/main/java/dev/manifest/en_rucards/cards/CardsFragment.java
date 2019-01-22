@@ -137,7 +137,7 @@ public class CardsFragment extends Fragment implements CardsContract.View,
     }
 
     @Override
-    public void onPlayClick(String soundName) {
-        presenter.playSound(soundName);
+    public void onPlayClick(Card clickedCard) {
+        presenter.playSound(clickedCard);
     }
 }

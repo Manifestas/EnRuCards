@@ -77,11 +77,11 @@ public class CardsAdapter extends RecyclerView.Adapter<CardsAdapter.CardsViewHol
         public void onClick(View v) {
             int adapterPosition = getAdapterPosition();
             Card pressedCard = cards.get(adapterPosition);
-            onPlayClickHandler.onPlayClick(pressedCard.getSoundName());
+            onPlayClickHandler.onPlayClick(pressedCard);
         }
     }
 
     interface CardsAdapterOnPlayClickHandler {
-        void onPlayClick(String soundName);
+        void onPlayClick(Card clickedCard);
     }
 }

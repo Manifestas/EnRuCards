@@ -35,6 +35,6 @@ public interface CardsContract {
 
         void result(int requestCode, int resultCode, Intent data);
 
-        void playSound(String soundName);
+        void playSound(Card card);
     }
 }
