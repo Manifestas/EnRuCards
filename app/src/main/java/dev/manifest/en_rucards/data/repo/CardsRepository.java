@@ -112,7 +112,19 @@ public class CardsRepository implements CardsDataSource {
 
             @Override
             public void onFileNotAvailable() {
-                callback.onFileNotAvailable();
+                // request from internet
+                remoteDataSource.getFile(fileName, new GetFileCallback() {
+                    @Override
+                    public void onFileLoaded(InputStream inputStream) {
+                        fileStorage.saveFile(SoundFileStorage.DIR_NAME, fileName, inputStream);
+                        callback.onFileLoaded(fileStorage.getFile(SoundFileStorage.DIR_NAME, fileName));
+                    }
+
+                    @Override
+                    public void onFileNotAvailable() {
+                        callback.onFileNotAvailable();
+                    }
+                });
             }
         });
     }
