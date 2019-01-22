@@ -17,6 +17,9 @@ public class Card {
 
     private String translate;
 
+    @ColumnInfo(name = "dict_name")
+    private String dictName;
+
     @ColumnInfo(name = "sound_name")
     private String soundName;
 
@@ -25,9 +28,10 @@ public class Card {
         this.originalWord = originalWord;
     }
 
-    public Card(String originalWord, String translate, String soundName) {
+    public Card(String originalWord, String translate, String dictName, String soundName) {
         this.originalWord = originalWord;
         this.translate = translate;
+        this.dictName = dictName;
         this.soundName = soundName;
     }
 
@@ -53,6 +57,14 @@ public class Card {
 
     public void setTranslate(String translate) {
         this.translate = translate;
+    }
+
+    public String getDictName() {
+        return dictName;
+    }
+
+    public void setDictName(String dictName) {
+        this.dictName = dictName;
     }
 
     public String getSoundName() {
