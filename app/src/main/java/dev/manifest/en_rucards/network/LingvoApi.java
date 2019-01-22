@@ -2,6 +2,7 @@ package dev.manifest.en_rucards.network;
 
 import dev.manifest.en_rucards.BuildConfig;
 import dev.manifest.en_rucards.data.model.Minicard;
+import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.http.GET;
 import retrofit2.http.Headers;
@@ -19,4 +20,8 @@ public interface LingvoApi {
 
     @GET("api/v1/Minicard?srcLang=" + EN_LANG + "&dstLang=" + RU_LANG)
     Call<Minicard> getTranslation(@Query("text") String ruText);
+
+    @GET("api/v1/Sound?")
+    Call<ResponseBody> getSoundFIle(@Query("dictionaryName") String dictName,
+                                    @Query("fileName") String fileName);
 }

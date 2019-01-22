@@ -8,6 +8,7 @@ import androidx.annotation.NonNull;
 import dev.manifest.en_rucards.data.model.Card;
 import dev.manifest.en_rucards.data.model.Minicard;
 import dev.manifest.en_rucards.network.LingvoApi;
+import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -70,6 +71,23 @@ public class CardsRemoteDataSource implements CardsDataSource {
 
     @Override
     public void getFile(@NonNull Card card, @NonNull GetFileCallback callback) {
+        Call<ResponseBody> call = retrofit.create(LingvoApi.class).getSoundFIle(card.getDictName(), card.getSoundName());
+        call.enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                if (response.isSuccessful()) {
+                    if (response.body() != null) {
+                        callback.onFileLoaded(response.body().byteStream());
+                    }
+                } else {
+                    callback.onFileNotAvailable();
+                }
+            }
 
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+                callback.onFileNotAvailable();
+            }
+        });
     }
 }
