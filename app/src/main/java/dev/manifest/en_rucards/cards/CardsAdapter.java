@@ -58,12 +58,13 @@ public class CardsAdapter extends RecyclerView.Adapter<CardsAdapter.CardsViewHol
 
         private final TextView ruWordTextView;
         private final TextView enWordTextView;
+        private final ImageButton playButton;
 
         public CardsViewHolder(@NonNull View itemView) {
             super(itemView);
             ruWordTextView = itemView.findViewById(R.id.tv_en_word);
             enWordTextView = itemView.findViewById(R.id.tv_ru_word);
-            ImageButton playButton = itemView.findViewById(R.id.btn_play);
+            playButton = itemView.findViewById(R.id.btn_play);
             playButton.setOnClickListener(this);
 
         }
@@ -71,6 +72,10 @@ public class CardsAdapter extends RecyclerView.Adapter<CardsAdapter.CardsViewHol
         public void bind(Card card) {
             ruWordTextView.setText(card.getOriginalWord());
             enWordTextView.setText(card.getTranslate());
+            String soundName = card.getSoundName();
+            if (soundName == null || soundName.isEmpty()) {
+                playButton.setVisibility(View.INVISIBLE);
+            }
         }
 
         @Override
