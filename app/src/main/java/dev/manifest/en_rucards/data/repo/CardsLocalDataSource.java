@@ -1,7 +1,6 @@
 package dev.manifest.en_rucards.data.repo;
 
 
-import java.io.InputStream;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -11,7 +10,6 @@ import androidx.annotation.NonNull;
 import dev.manifest.en_rucards.data.db.CardDao;
 import dev.manifest.en_rucards.data.model.Card;
 import dev.manifest.en_rucards.data.storage.FileStorage;
-import dev.manifest.en_rucards.data.storage.SoundFileStorage;
 import dev.manifest.en_rucards.util.AppExecutors;
 
 @Singleton
@@ -78,11 +76,11 @@ public class CardsLocalDataSource implements CardsDataSource {
 
     @Override
     public void getFile(@NonNull Card card, @NonNull GetFileCallback callback) {
-        InputStream inputStream = fileStorage.getFile(SoundFileStorage.DIR_NAME, card.getSoundName());
-        if (inputStream == null) {
+        String soundFile = fileStorage.getFilePath(card.getSoundName());
+        if (soundFile == null || soundFile.isEmpty()) {
             callback.onFileNotAvailable();
-        } else  {
-            callback.onFileLoaded(inputStream);
+        } else {
+            callback.onFileLoaded(soundFile);
         }
     }
 }

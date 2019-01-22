@@ -1,6 +1,5 @@
 package dev.manifest.en_rucards.data.repo;
 
-import java.io.InputStream;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -9,7 +8,6 @@ import javax.inject.Singleton;
 import androidx.annotation.NonNull;
 import dev.manifest.en_rucards.data.model.Card;
 import dev.manifest.en_rucards.data.storage.FileStorage;
-import dev.manifest.en_rucards.data.storage.SoundFileStorage;
 
 @Singleton
 public class CardsRepository implements CardsDataSource {
@@ -90,16 +88,15 @@ public class CardsRepository implements CardsDataSource {
     public void getFile(@NonNull Card card, @NonNull GetFileCallback callback) {
         localDataSource.getFile(card, new GetFileCallback() {
             @Override
-            public void onFileLoaded(InputStream inputStream) {
-                if (inputStream != null) {
-                    callback.onFileLoaded(inputStream);
+            public void onFileLoaded(String path) {
+                if (path != null && !path.isEmpty()) {
+                    callback.onFileLoaded(path);
                 } else {
                     // request from internet
                     remoteDataSource.getFile(card, new GetFileCallback() {
                         @Override
-                        public void onFileLoaded(InputStream inputStream) {
-                            fileStorage.saveFile(SoundFileStorage.DIR_NAME, card.getSoundName(), inputStream);
-                            callback.onFileLoaded(fileStorage.getFile(SoundFileStorage.DIR_NAME, card.getSoundName()));
+                        public void onFileLoaded(String path) {
+                            callback.onFileLoaded(path);
                         }
 
                         @Override
@@ -115,9 +112,8 @@ public class CardsRepository implements CardsDataSource {
                 // request from internet
                 remoteDataSource.getFile(card, new GetFileCallback() {
                     @Override
-                    public void onFileLoaded(InputStream inputStream) {
-                        fileStorage.saveFile(SoundFileStorage.DIR_NAME, card.getSoundName(), inputStream);
-                        callback.onFileLoaded(fileStorage.getFile(SoundFileStorage.DIR_NAME, card.getSoundName()));
+                    public void onFileLoaded(String path) {
+                        callback.onFileLoaded(path);
                     }
 
                     @Override

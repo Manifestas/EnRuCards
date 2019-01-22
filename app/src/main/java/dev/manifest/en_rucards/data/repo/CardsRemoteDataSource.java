@@ -1,5 +1,7 @@
 package dev.manifest.en_rucards.data.repo;
 
+import java.io.InputStream;
+
 import javax.inject.Inject;
 import javax.inject.Named;
 import javax.inject.Singleton;
@@ -7,6 +9,7 @@ import javax.inject.Singleton;
 import androidx.annotation.NonNull;
 import dev.manifest.en_rucards.data.model.Card;
 import dev.manifest.en_rucards.data.model.Minicard;
+import dev.manifest.en_rucards.data.storage.SoundFileStorage;
 import dev.manifest.en_rucards.network.LingvoApi;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
@@ -18,10 +21,12 @@ import retrofit2.Retrofit;
 public class CardsRemoteDataSource implements CardsDataSource {
 
     private Retrofit retrofit;
+    private SoundFileStorage fileStorage;
 
     @Inject
-    public CardsRemoteDataSource(@Named("auth") Retrofit retrofit) {
+    public CardsRemoteDataSource(@Named("auth") Retrofit retrofit, SoundFileStorage fileStorage) {
         this.retrofit = retrofit;
+        this.fileStorage = fileStorage;
     }
 
     @Override
@@ -77,7 +82,8 @@ public class CardsRemoteDataSource implements CardsDataSource {
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                 if (response.isSuccessful()) {
                     if (response.body() != null) {
-                        callback.onFileLoaded(response.body().byteStream());
+                        InputStream inputStream = response.body().byteStream();
+                        fileStorage.saveFile(card.getSoundName(), inputStream);
                     }
                 } else {
                     callback.onFileNotAvailable();

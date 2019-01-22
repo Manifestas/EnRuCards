@@ -38,7 +38,7 @@ public interface CardsDataSource {
 
     interface GetFileCallback {
 
-        void onFileLoaded(InputStream inputStream);
+        void onFileLoaded(String path);
 
         void onFileNotAvailable();
     }
