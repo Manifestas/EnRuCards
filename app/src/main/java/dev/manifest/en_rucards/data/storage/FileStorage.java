@@ -4,7 +4,7 @@ import java.io.InputStream;
 
 public interface FileStorage {
 
-    InputStream getFile(String path, String fileName);
+    String getFilePath(String fileName);
 
-    boolean saveFile(String path, String fileName, InputStream inputStream);
+    boolean saveFile(String fileName, InputStream inputStream);
 }

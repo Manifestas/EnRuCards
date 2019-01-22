@@ -3,8 +3,6 @@ package dev.manifest.en_rucards.data.storage;
 import android.content.Context;
 
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -20,22 +18,18 @@ public class SoundFileStorage implements FileStorage {
     }
 
     @Override
-    public InputStream getFile(String path, String fileName) {
+    public String getFilePath(String fileName) {
         File directory = context.getDir(DIR_NAME, Context.MODE_PRIVATE);
         File soundFile = new File(directory, fileName);
         if (soundFile.exists()) {
-            try {
-                return new FileInputStream(soundFile);
-            } catch (FileNotFoundException e) {
-                return null;
-            }
+            return soundFile.getAbsolutePath();
         } else {
             return null;
         }
     }
 
     @Override
-    public boolean saveFile(String path, String fileName, InputStream inputStream) {
+    public boolean saveFile(String fileName, InputStream inputStream) {
         File directory = context.getDir(DIR_NAME, Context.MODE_PRIVATE);
         File soundFile = new File(directory, fileName);
         try {
