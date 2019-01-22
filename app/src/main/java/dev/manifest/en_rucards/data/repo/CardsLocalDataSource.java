@@ -1,6 +1,7 @@
 package dev.manifest.en_rucards.data.repo;
 
 
+import java.io.InputStream;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -9,6 +10,8 @@ import javax.inject.Singleton;
 import androidx.annotation.NonNull;
 import dev.manifest.en_rucards.data.db.CardDao;
 import dev.manifest.en_rucards.data.model.Card;
+import dev.manifest.en_rucards.data.storage.FileStorage;
+import dev.manifest.en_rucards.data.storage.SoundFileStorage;
 import dev.manifest.en_rucards.util.AppExecutors;
 
 @Singleton
@@ -16,11 +19,13 @@ public class CardsLocalDataSource implements CardsDataSource {
 
     private CardDao dao;
     private AppExecutors executors;
+    private FileStorage fileStorage;
 
     @Inject
-    public CardsLocalDataSource(CardDao dao, AppExecutors executors) {
+    public CardsLocalDataSource(CardDao dao, AppExecutors executors, FileStorage fileStorage) {
         this.dao = dao;
         this.executors = executors;
+        this.fileStorage = fileStorage;
     }
 
     @Override
@@ -69,5 +74,15 @@ public class CardsLocalDataSource implements CardsDataSource {
     @Override
     public void deleteCard(@NonNull String cardId) {
 
+    }
+
+    @Override
+    public void getFile(@NonNull String fileName, @NonNull GetFileCallback callback) {
+        InputStream inputStream = fileStorage.getFile(SoundFileStorage.DIR_NAME, fileName);
+        if (inputStream == null) {
+            callback.onFileNotAvailable();
+        } else  {
+            callback.onFileLoaded(inputStream);
+        }
     }
 }
