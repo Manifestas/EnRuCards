@@ -13,6 +13,7 @@ import dev.manifest.en_rucards.data.db.CardDatabase;
 import dev.manifest.en_rucards.data.repo.CardsDataSource;
 import dev.manifest.en_rucards.data.repo.CardsLocalDataSource;
 import dev.manifest.en_rucards.data.repo.CardsRemoteDataSource;
+import dev.manifest.en_rucards.data.storage.FileStorage;
 import dev.manifest.en_rucards.util.AppExecutors;
 import retrofit2.Retrofit;
 
@@ -22,8 +23,8 @@ public class CardsModule {
     @Provides
     @Singleton
     @Named("local")
-    CardsDataSource provideCardsLocalDataSource(CardDao dao, AppExecutors executors) {
-        return new CardsLocalDataSource(dao, executors);
+    CardsDataSource provideCardsLocalDataSource(CardDao dao, AppExecutors executors, FileStorage fileStorage) {
+        return new CardsLocalDataSource(dao, executors, fileStorage);
     }
 
     @Provides
