@@ -6,4 +6,5 @@
     <string name="add">Add</string>
     <string name="cancel">Cancel</string>
     <string name="word_added">The new word has been added.</string>
+    <string name="sound_not_available">Sound file not available</string>
 </resources>

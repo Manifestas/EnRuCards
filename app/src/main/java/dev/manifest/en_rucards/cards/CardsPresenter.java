@@ -11,6 +11,7 @@ import javax.inject.Singleton;
 import dev.manifest.en_rucards.R;
 import dev.manifest.en_rucards.data.model.Card;
 import dev.manifest.en_rucards.data.repo.CardsDataSource;
+import dev.manifest.en_rucards.data.repo.CardsDataSource.GetFileCallback;
 import dev.manifest.en_rucards.data.repo.CardsRepository;
 
 @Singleton
@@ -69,8 +70,22 @@ public class CardsPresenter implements CardsContract.Presenter {
     }
 
     @Override
-    public void playSound(String soundName) {
+    public void playSound(Card card) {
+        repository.getFile(card, new GetFileCallback() {
+            @Override
+            public void onFileLoaded(String path) {
+                if (wordsView != null) {
+                    wordsView.playSound(path);
+                }
+            }
 
+            @Override
+            public void onFileNotAvailable() {
+                if (wordsView != null) {
+                    wordsView.showSnackbarMessage(R.string.sound_not_available);
+                }
+            }
+        });
     }
 
     @Override
