@@ -22,6 +22,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import dev.manifest.en_rucards.App;
 import dev.manifest.en_rucards.R;
 import dev.manifest.en_rucards.data.model.Card;
+import dev.manifest.en_rucards.media.AudioPlayer;
 import retrofit2.Retrofit;
 
 /**
@@ -40,6 +41,8 @@ public class CardsFragment extends Fragment implements CardsContract.View,
     Retrofit retrofit;
     @Inject
     CardsPresenter presenter;
+    @Inject
+    AudioPlayer player;
     private CardsAdapter cardsAdapter;
 
     private RecyclerView recyclerView;
@@ -124,12 +127,17 @@ public class CardsFragment extends Fragment implements CardsContract.View,
         showMessage(getString(messageId));
     }
 
+    @Override
+    public void playSound(String soundPath) {
+
+    }
+
     private void showMessage(String message) {
         Snackbar.make(recyclerView, message, Snackbar.LENGTH_SHORT).show();
     }
 
     @Override
     public void onPlayClick(String soundName) {
-
+        presenter.playSound(soundName);
     }
 }

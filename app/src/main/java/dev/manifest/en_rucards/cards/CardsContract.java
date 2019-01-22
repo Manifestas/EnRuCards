@@ -19,6 +19,8 @@ public interface CardsContract {
         void showAddCard();
 
         void showSnackbarMessage(int messageId);
+
+        void playSound(String soundPath);
     }
 
     interface Presenter extends BasePresenter<View> {
