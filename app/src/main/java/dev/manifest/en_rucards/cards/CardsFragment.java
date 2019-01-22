@@ -129,7 +129,7 @@ public class CardsFragment extends Fragment implements CardsContract.View,
 
     @Override
     public void playSound(String soundPath) {
-
+        player.play(soundPath);
     }
 
     private void showMessage(String message) {

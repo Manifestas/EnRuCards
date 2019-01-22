@@ -23,7 +23,7 @@ public class AudioPlayer implements Player,
     }
 
     @Override
-    public void play(String path) throws IOException {
+    public void play(String path) {
         releaseMediaPlayer();
         // Request audio focus so in order to play the audio file. The app needs to play a
         // short audio file, so we will request audio focus with a short amount of time
@@ -32,14 +32,19 @@ public class AudioPlayer implements Player,
                 AudioManager.STREAM_MUSIC, AudioManager.AUDIOFOCUS_GAIN_TRANSIENT);
 
         if (result == AudioManager.AUDIOFOCUS_REQUEST_GRANTED) {
-            mediaPlayer = new MediaPlayer();
-            mediaPlayer.setDataSource(path);
-            mediaPlayer.prepare();
-            mediaPlayer.start();
+            try {
+                mediaPlayer = new MediaPlayer();
+                mediaPlayer.setDataSource(path);
+                mediaPlayer.prepare();
+                mediaPlayer.start();
 
-            // Setup a listener on the media player, so that we can stop and release the
-            // media player once the sound has finished playing.
-            mediaPlayer.setOnCompletionListener(this);
+                // Setup a listener on the media player, so that we can stop and release the
+                // media player once the sound has finished playing.
+                mediaPlayer.setOnCompletionListener(this);
+            } catch (IOException e) {
+                e.printStackTrace();
+                releaseMediaPlayer();
+            }
         }
     }
 
