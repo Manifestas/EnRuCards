@@ -1,4 +1,4 @@
-package dev.manifest.en_rucards.words;
+package dev.manifest.en_rucards.cards;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -66,6 +66,11 @@ public class CardsPresenter implements CardsContract.Presenter {
                 repository.saveCard(new Card(ruWord));
             }
         }
+    }
+
+    @Override
+    public void playSound(String soundName) {
+
     }
 
     @Override

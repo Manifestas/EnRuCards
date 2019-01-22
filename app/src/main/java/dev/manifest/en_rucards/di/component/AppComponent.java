@@ -6,13 +6,15 @@ import javax.inject.Singleton;
 import dagger.Component;
 import dev.manifest.en_rucards.di.module.AppModule;
 import dev.manifest.en_rucards.di.module.CardsModule;
+import dev.manifest.en_rucards.di.module.MediaModule;
 import dev.manifest.en_rucards.di.module.NetModule;
-import dev.manifest.en_rucards.words.CardsFragment;
+import dev.manifest.en_rucards.cards.CardsFragment;
 import retrofit2.Retrofit;
 
 @Singleton
 @Component(modules = {AppModule.class,
         NetModule.class,
+        MediaModule.class,
         CardsModule.class})
 public interface AppComponent {
 

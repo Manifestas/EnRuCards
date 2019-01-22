@@ -1,4 +1,4 @@
-package dev.manifest.en_rucards.words;
+package dev.manifest.en_rucards.cards;
 
 import android.content.Intent;
 
@@ -32,5 +32,7 @@ public interface CardsContract {
         void addNewCard();
 
         void result(int requestCode, int resultCode, Intent data);
+
+        void playSound(String soundName);
     }
 }

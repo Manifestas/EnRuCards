@@ -1,8 +1,9 @@
-package dev.manifest.en_rucards.words;
+package dev.manifest.en_rucards.cards;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -17,11 +18,12 @@ import dev.manifest.en_rucards.data.model.Card;
 
 public class CardsAdapter extends RecyclerView.Adapter<CardsAdapter.CardsViewHolder> {
 
+    private final CardsAdapterOnPlayClickHandler onPlayClickHandler;
     private List<Card> cards = new ArrayList<>();
 
     @Inject
-    public CardsAdapter(){
-
+    public CardsAdapter(CardsAdapterOnPlayClickHandler handler){
+        onPlayClickHandler = handler;
     }
 
     /**
@@ -52,7 +54,7 @@ public class CardsAdapter extends RecyclerView.Adapter<CardsAdapter.CardsViewHol
     }
 
 
-    public class CardsViewHolder extends RecyclerView.ViewHolder {
+    public class CardsViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
         private final TextView ruWordTextView;
         private final TextView enWordTextView;
@@ -61,11 +63,25 @@ public class CardsAdapter extends RecyclerView.Adapter<CardsAdapter.CardsViewHol
             super(itemView);
             ruWordTextView = itemView.findViewById(R.id.tv_en_word);
             enWordTextView = itemView.findViewById(R.id.tv_ru_word);
+            ImageButton playButton = itemView.findViewById(R.id.btn_play);
+            playButton.setOnClickListener(this);
+
         }
 
         public void bind(Card card) {
             ruWordTextView.setText(card.getOriginalWord());
             enWordTextView.setText(card.getTranslate());
         }
+
+        @Override
+        public void onClick(View v) {
+            int adapterPosition = getAdapterPosition();
+            Card pressedCard = cards.get(adapterPosition);
+            onPlayClickHandler.onPlayClick(pressedCard.getSoundName());
+        }
+    }
+
+    interface CardsAdapterOnPlayClickHandler {
+        void onPlayClick(String soundName);
     }
 }

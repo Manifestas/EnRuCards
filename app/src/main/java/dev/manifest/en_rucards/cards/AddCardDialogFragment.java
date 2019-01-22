@@ -1,4 +1,4 @@
-package dev.manifest.en_rucards.words;
+package dev.manifest.en_rucards.cards;
 
 import android.app.Activity;
 import android.app.Dialog;

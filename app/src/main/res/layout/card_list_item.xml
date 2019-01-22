@@ -1,33 +1,37 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="80dp"
-    android:orientation="horizontal">
+              xmlns:tools="http://schemas.android.com/tools"
+              android:layout_width="match_parent"
+              android:layout_height="80dp"
+              android:orientation="horizontal">
 
     <TextView
-        android:layout_width="0dp"
         android:id="@+id/tv_en_word"
-        android:layout_weight="1"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
         android:layout_gravity="center"
+        android:layout_weight="1"
         android:gravity="center"
-        tools:text="english"
-        android:layout_height="wrap_content" />
+        tools:text="english"/>
+
     <ImageView
         android:layout_width="72dp"
-        android:layout_height="80dp" />
+        android:layout_height="80dp"/>
+
     <TextView
-        android:layout_width="0dp"
         android:id="@+id/tv_ru_word"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:gravity="center"
         android:layout_weight="1"
-        tools:text="russian"
-        android:layout_height="wrap_content" />
-    <ImageView
+        android:gravity="center"
+        tools:text="russian"/>
+
+    <ImageButton
+        android:id="@+id/btn_play"
         android:layout_width="wrap_content"
-        android:src="@drawable/ic_play_arrow_black_24dp"
+        android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:layout_height="wrap_content" />
+        android:src="@drawable/ic_play_arrow_black_24dp"/>
 
 </LinearLayout>
