@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
@@ -45,8 +46,8 @@ public class CardsFragment extends Fragment implements CardsContract.View,
     @Inject
     AudioPlayer player;
     private CardsAdapter cardsAdapter;
-
     private RecyclerView recyclerView;
+    private ProgressBar indeterminateBar;
 
     public CardsFragment() {
         // Required empty public constructor
@@ -74,6 +75,7 @@ public class CardsFragment extends Fragment implements CardsContract.View,
         cardsAdapter = new CardsAdapter(this);
         // Inflate the layout for this fragment
         View root = inflater.inflate(R.layout.fragment_words, container, false);
+        indeterminateBar = root.findViewById(R.id.pb_indeterminate);
         recyclerView = root.findViewById(R.id.rv_cards);
         LinearLayoutManager layoutManager = new LinearLayoutManager(recyclerView.getContext());
         recyclerView.setLayoutManager(layoutManager);
@@ -144,5 +146,10 @@ public class CardsFragment extends Fragment implements CardsContract.View,
     @Override
     public void onPlayClick(Card clickedCard) {
         presenter.playSound(clickedCard);
+    }
+
+    @Override
+    public void showLoadingIndicator(boolean active) {
+        indeterminateBar.setVisibility(active ? View.VISIBLE : View.GONE);
     }
 }
