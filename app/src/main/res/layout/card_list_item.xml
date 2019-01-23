@@ -14,10 +14,6 @@
         android:gravity="center"
         tools:text="english"/>
 
-    <ImageView
-        android:layout_width="72dp"
-        android:layout_height="80dp"/>
-
     <TextView
         android:id="@+id/tv_ru_word"
         android:layout_width="0dp"
