@@ -30,15 +30,18 @@ public class CardsPresenter implements CardsContract.Presenter {
         repository.getCards(new CardsDataSource.LoadCardCallback() {
             @Override
             public void onCardsLoaded(List<Card> cards) {
-                wordsView.showCards(cards);
+                if (wordsView != null) {
+                    wordsView.showCards(cards);
+                }
             }
 
             @Override
             public void onDataNotAvailable() {
-
+                if (wordsView != null) {
+                    wordsView.showSnackbarMessage(R.string.empty_dictionary);
+                }
             }
         });
-
     }
 
     @Override
@@ -53,7 +56,9 @@ public class CardsPresenter implements CardsContract.Presenter {
 
     @Override
     public void addNewCard() {
-        wordsView.showAddCard();
+        if (wordsView != null) {
+            wordsView.showAddCard();
+        }
     }
 
     @Override
@@ -90,7 +95,9 @@ public class CardsPresenter implements CardsContract.Presenter {
 
     @Override
     public void takeView(CardsContract.View view) {
-        wordsView = view;
+        if (view != null) {
+            wordsView = view;
+        }
     }
 
     @Override
