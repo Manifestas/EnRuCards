@@ -15,6 +15,7 @@ import dev.manifest.en_rucards.network.TokenAuthenticator;
 import dev.manifest.en_rucards.network.TokenInterceptor;
 import dev.manifest.en_rucards.network.TokenManager;
 import dev.manifest.en_rucards.util.AppExecutors;
+import dev.manifest.en_rucards.util.SchedulerProvider;
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
@@ -91,5 +92,11 @@ public class NetModule {
         return new AppExecutors(Executors.newSingleThreadExecutor(),
                 Executors.newFixedThreadPool(THREAD_COUNT),
                 new AppExecutors.MainThreadExecutor());
+    }
+
+    @Provides
+    @Singleton
+    SchedulerProvider provideSchedulerProvide() {
+        return new SchedulerProvider();
     }
 }
