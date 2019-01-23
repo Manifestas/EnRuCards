@@ -51,7 +51,7 @@ public class LingvoTokenManager implements TokenManager {
             calendar.setTimeInMillis(expireTime);
             Date expireDate = calendar.getTime();
 
-            int result = nowDate.compareTo(expireDate);
+            int result = expireDate.compareTo(nowDate);
             /* When comparing dates -1 means date passed
             so we need to refresh token see {@link Date#compareTo} */
             if (result < 0) {
