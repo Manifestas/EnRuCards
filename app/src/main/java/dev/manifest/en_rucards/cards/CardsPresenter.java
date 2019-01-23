@@ -13,16 +13,19 @@ import dev.manifest.en_rucards.data.model.Card;
 import dev.manifest.en_rucards.data.repo.CardsDataSource;
 import dev.manifest.en_rucards.data.repo.CardsDataSource.GetFileCallback;
 import dev.manifest.en_rucards.data.repo.CardsRepository;
+import dev.manifest.en_rucards.util.SchedulerProvider;
 
 @Singleton
 public class CardsPresenter implements CardsContract.Presenter {
 
     private CardsRepository repository;
     private CardsContract.View wordsView;
+    private SchedulerProvider schedulerProvider;
 
     @Inject
-    public CardsPresenter(CardsRepository repo) {
-        repository = repo;
+    public CardsPresenter(CardsRepository repository, SchedulerProvider schedulerProvider) {
+        this.repository = repository;
+        this.schedulerProvider = schedulerProvider;
     }
 
     @Override
