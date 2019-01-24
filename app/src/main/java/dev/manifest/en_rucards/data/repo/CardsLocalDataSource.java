@@ -11,6 +11,9 @@ import dev.manifest.en_rucards.data.db.CardDao;
 import dev.manifest.en_rucards.data.model.Card;
 import dev.manifest.en_rucards.data.storage.FileStorage;
 import dev.manifest.en_rucards.util.AppExecutors;
+import io.reactivex.BackpressureStrategy;
+import io.reactivex.Flowable;
+import io.reactivex.FlowableOnSubscribe;
 
 @Singleton
 public class CardsLocalDataSource implements CardsDataSource {
@@ -27,39 +30,19 @@ public class CardsLocalDataSource implements CardsDataSource {
     }
 
     @Override
-    public void getCards(@NonNull final LoadCardCallback callback) {
-        executors.diskIO().execute(() -> {
-            final List<Card> cards = dao.getAllCards();
-
-            executors.mainThread().execute(() -> {
-                if (cards.isEmpty()) {
-                    callback.onDataNotAvailable();
-                } else {
-                    callback.onCardsLoaded(cards);
-                }
-            });
-        });
+    public Flowable<List<Card>> getCards() {
+        return dao.getAllCards();
     }
 
     @Override
-    public void getCard(@NonNull String cardId, @NonNull GetCardCallback callback) {
-
+    public Flowable<Card> getCard(@NonNull String cardId) {
+        return dao.getCardById(Long.valueOf(cardId));
     }
 
+
     @Override
-    public void getCardByOriginalWord(@NonNull final String word, @NonNull GetCardCallback callback) {
-        executors.diskIO().execute(() -> {
-            Card searchedCard = dao.getCardByOriginalWord(word);
-
-            executors.mainThread().execute(() -> {
-                if (searchedCard != null) {
-                    callback.onCardLoaded(searchedCard);
-                } else {
-                    callback.onDataNotAvailable();
-                }
-            });
-        });
-
+    public Flowable<Card> getCardByOriginalWord(@NonNull String word) {
+        return dao.getCardByOriginalWord(word);
     }
 
     @Override
@@ -75,12 +58,9 @@ public class CardsLocalDataSource implements CardsDataSource {
     }
 
     @Override
-    public void getFile(@NonNull Card card, @NonNull GetFileCallback callback) {
+    public Flowable<String> getFile(@NonNull Card card) {
         String soundFile = fileStorage.getFilePath(card.getSoundName());
-        if (soundFile == null || soundFile.isEmpty()) {
-            callback.onFileNotAvailable();
-        } else {
-            callback.onFileLoaded(soundFile);
-        }
+        FlowableOnSubscribe<String> flowableOnSubscribe = flowable -> flowable.onNext(soundFile);
+        return Flowable.create(flowableOnSubscribe, BackpressureStrategy.BUFFER);
     }
 }
