@@ -7,6 +7,7 @@ import androidx.room.Insert;
 import androidx.room.OnConflictStrategy;
 import androidx.room.Query;
 import dev.manifest.en_rucards.data.model.Card;
+import io.reactivex.Flowable;
 
 @Dao
 public interface CardDao {
@@ -15,12 +16,12 @@ public interface CardDao {
     long insertCard(Card card);
 
     @Query("SELECT * FROM card")
-    List<Card> getAllCards();
+    Flowable<List<Card>> getAllCards();
 
     @Query("SELECT * FROM card WHERE id = :cardId")
-    Card getCardById(long cardId);
+    Flowable<Card> getCardById(long cardId);
 
     @Query("SELECT * FROM card WHERE original_word = :originalWord")
-    Card getCardByOriginalWord(String originalWord);
+    Flowable<Card> getCardByOriginalWord(String originalWord);
 
 }
