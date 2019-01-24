@@ -8,6 +8,7 @@ import javax.inject.Singleton;
 import androidx.annotation.NonNull;
 import dev.manifest.en_rucards.data.model.Card;
 import dev.manifest.en_rucards.data.storage.FileStorage;
+import io.reactivex.Flowable;
 
 @Singleton
 public class CardsRepository implements CardsDataSource {
@@ -26,34 +27,25 @@ public class CardsRepository implements CardsDataSource {
     }
 
     @Override
-    public void getCards(@NonNull final LoadCardCallback callback) {
-        localDataSource.getCards(new LoadCardCallback() {
-            @Override
-            public void onCardsLoaded(List<Card> cards) {
-                callback.onCardsLoaded(cards);
-            }
-
-            @Override
-            public void onDataNotAvailable() {
-
-            }
-        });
-
+    public Flowable<List<Card>> getCards() {
+        return localDataSource.getCards();
     }
 
     @Override
-    public void getCard(@NonNull String cardId, @NonNull GetCardCallback callback) {
-
+    public Flowable<Card> getCard(@NonNull String cardId) {
+        return null;
     }
 
     @Override
-    public void getCardByOriginalWord(@NonNull String word, @NonNull GetCardCallback callback) {
-
+    public Flowable<Card> getCardByOriginalWord(@NonNull String word) {
+        return null;
     }
 
     @Override
     public void saveCard(@NonNull Card card) {
         final String originalWord = card.getOriginalWord();
+        localDataSource.getCardByOriginalWord(originalWord)
+                .
         localDataSource.getCardByOriginalWord(originalWord,
                 new GetCardCallback() {
                     @Override

@@ -5,7 +5,7 @@ import java.util.List;
 import androidx.annotation.NonNull;
 import dev.manifest.en_rucards.data.model.Card;
 import io.reactivex.Flowable;
-import io.reactivex.Single;
+import io.reactivex.Maybe;
 
 public interface CardsDataSource {
 
@@ -19,6 +19,6 @@ public interface CardsDataSource {
 
     void deleteCard(@NonNull String cardId);
 
-    Single<String> getFile(@NonNull Card card);
+    Maybe<String> getFile(@NonNull Card card);
 }
 

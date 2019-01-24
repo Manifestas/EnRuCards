@@ -2,6 +2,7 @@ package dev.manifest.en_rucards.data.repo;
 
 
 import java.util.List;
+import java.util.Optional;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
@@ -12,6 +13,9 @@ import dev.manifest.en_rucards.data.model.Card;
 import dev.manifest.en_rucards.data.storage.FileStorage;
 import dev.manifest.en_rucards.util.AppExecutors;
 import io.reactivex.Flowable;
+import io.reactivex.Maybe;
+import io.reactivex.MaybeEmitter;
+import io.reactivex.MaybeOnSubscribe;
 import io.reactivex.Single;
 
 @Singleton
@@ -57,8 +61,8 @@ public class CardsLocalDataSource implements CardsDataSource {
     }
 
     @Override
-    public Single<String> getFile(@NonNull Card card) {
+    public Maybe<String> getFile(@NonNull Card card) {
         String soundFile = fileStorage.getFilePath(card.getSoundName());
-        return Single.just(soundFile);
+        return Maybe.create(new Ma)
     }
 }

@@ -1,6 +1,7 @@
 package dev.manifest.en_rucards.data.repo;
 
 import java.io.InputStream;
+import java.util.List;
 
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -11,6 +12,8 @@ import dev.manifest.en_rucards.data.model.Card;
 import dev.manifest.en_rucards.data.model.Minicard;
 import dev.manifest.en_rucards.data.storage.FileStorage;
 import dev.manifest.en_rucards.network.LingvoApi;
+import io.reactivex.Flowable;
+import io.reactivex.Single;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -30,38 +33,24 @@ public class CardsRemoteDataSource implements CardsDataSource {
     }
 
     @Override
-    public void getCards(@NonNull LoadCardCallback callback) {
-
+    public Flowable<List<Card>> getCards() {
+        return null;
     }
 
     @Override
-    public void getCard(@NonNull String cardId, @NonNull GetCardCallback callback) {
-
+    public Flowable<Card> getCard(@NonNull String cardId) {
+        return null;
     }
 
     @Override
-    public void getCardByOriginalWord(@NonNull String word, @NonNull GetCardCallback callback) {
-        retrofit.create(LingvoApi.class).getTranslation(word).enqueue(new Callback<Minicard>() {
-            @Override
-            public void onResponse(Call<Minicard> call, Response<Minicard> response) {
-                Minicard minicard = response.body();
-                if (minicard != null) {
+    public Flowable<Card> getCardByOriginalWord(@NonNull String word) {
+        return retrofit.create(LingvoApi.class).getTranslation(word)
+                .map(minicard -> {
                     String translation = minicard.getTranslation().getTranslation();
                     String dictName = minicard.getTranslation().getDictionaryName();
                     String soundName = minicard.getTranslation().getSoundName();
-                    Card card = new Card(word, translation, dictName, soundName);
-                    callback.onCardLoaded(card);
-                } else {
-                    callback.onDataNotAvailable();
-                }
-            }
-
-            @Override
-            public void onFailure(Call<Minicard> call, Throwable t) {
-                callback.onDataNotAvailable();
-            }
-        });
-
+                    return new Card(word, translation, dictName, soundName);
+                });
     }
 
     @Override
@@ -75,27 +64,17 @@ public class CardsRemoteDataSource implements CardsDataSource {
     }
 
     @Override
-    public void getFile(@NonNull Card card, @NonNull GetFileCallback callback) {
-        Call<ResponseBody> call = retrofit.create(LingvoApi.class).getSoundFIle(card.getDictName(), card.getSoundName());
-        call.enqueue(new Callback<ResponseBody>() {
-            @Override
-            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-                if (response.isSuccessful()) {
-                    if (response.body() != null) {
-                        InputStream inputStream = response.body().byteStream();
+    public Single<String> getFile(@NonNull Card card) {
+        return retrofit.create(LingvoApi.class).getSoundFIle(card.getDictName(), card.getSoundName())
+                .map(responseBody -> {
+                    if (responseBody != null) {
+                        InputStream inputStream = responseBody.byteStream();
                         String soundName = card.getSoundName();
                         fileStorage.saveFile(soundName, inputStream);
-                        callback.onFileLoaded(fileStorage.getFilePath(soundName));
+                        return soundName;
+                    } else {
+                        return null;
                     }
-                } else {
-                    callback.onFileNotAvailable();
-                }
-            }
-
-            @Override
-            public void onFailure(Call<ResponseBody> call, Throwable t) {
-                callback.onFileNotAvailable();
-            }
-        });
+                });
     }
 }
