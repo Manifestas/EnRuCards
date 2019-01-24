@@ -11,9 +11,8 @@ import dev.manifest.en_rucards.data.db.CardDao;
 import dev.manifest.en_rucards.data.model.Card;
 import dev.manifest.en_rucards.data.storage.FileStorage;
 import dev.manifest.en_rucards.util.AppExecutors;
-import io.reactivex.BackpressureStrategy;
 import io.reactivex.Flowable;
-import io.reactivex.FlowableOnSubscribe;
+import io.reactivex.Single;
 
 @Singleton
 public class CardsLocalDataSource implements CardsDataSource {
@@ -58,9 +57,8 @@ public class CardsLocalDataSource implements CardsDataSource {
     }
 
     @Override
-    public Flowable<String> getFile(@NonNull Card card) {
+    public Single<String> getFile(@NonNull Card card) {
         String soundFile = fileStorage.getFilePath(card.getSoundName());
-        FlowableOnSubscribe<String> flowableOnSubscribe = flowable -> flowable.onNext(soundFile);
-        return Flowable.create(flowableOnSubscribe, BackpressureStrategy.BUFFER);
+        return Single.just(soundFile);
     }
 }
