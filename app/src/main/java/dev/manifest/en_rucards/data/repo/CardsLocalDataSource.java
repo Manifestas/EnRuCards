@@ -50,19 +50,18 @@ public class CardsLocalDataSource implements CardsDataSource {
 
     @Override
     public void saveCard(@NonNull Card card) {
-        executors.diskIO().execute(() -> {
-            dao.insertCard(card);
-        });
+        executors.diskIO().execute(() -> dao.insertCard(card));
     }
 
     @Override
     public void deleteCard(@NonNull String cardId) {
+        throw new UnsupportedOperationException();
 
     }
 
     @Override
     public Maybe<String> getFile(@NonNull Card card) {
         String soundFile = fileStorage.getFilePath(card.getSoundName());
-        return Maybe.create(new Ma)
+        return soundFile == null ? Maybe.empty() : Maybe.just(soundFile);
     }
 }

@@ -3,21 +3,19 @@ package dev.manifest.en_rucards.cards;
 import android.app.Activity;
 import android.content.Intent;
 
-import java.util.List;
-
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
 import dev.manifest.en_rucards.R;
 import dev.manifest.en_rucards.data.model.Card;
-import dev.manifest.en_rucards.data.repo.CardsDataSource;
-import dev.manifest.en_rucards.data.repo.CardsDataSource.GetFileCallback;
 import dev.manifest.en_rucards.data.repo.CardsRepository;
 import dev.manifest.en_rucards.util.SchedulerProvider;
+import io.reactivex.disposables.CompositeDisposable;
 
 @Singleton
 public class CardsPresenter implements CardsContract.Presenter {
 
+    private CompositeDisposable subscriptions = new CompositeDisposable();
     private CardsRepository repository;
     private CardsContract.View wordsView;
     private SchedulerProvider schedulerProvider;
@@ -30,31 +28,24 @@ public class CardsPresenter implements CardsContract.Presenter {
 
     @Override
     public void loadCards() {
-        repository.getCards(new CardsDataSource.LoadCardCallback() {
-            @Override
-            public void onCardsLoaded(List<Card> cards) {
-                if (wordsView != null) {
-                    wordsView.showCards(cards);
-                }
-            }
-
-            @Override
-            public void onDataNotAvailable() {
-                if (wordsView != null) {
-                    wordsView.showSnackbarMessage(R.string.empty_dictionary);
-                }
-            }
-        });
+        if (wordsView != null) {
+            wordsView.showLoadingIndicator(true);
+            subscriptions.add(repository.getCards()
+                    .subscribe(
+                            cards -> wordsView.showCards(cards),
+                            error -> wordsView.showSnackbarMessage(R.string.empty_dictionary)
+                    ));
+        }
     }
 
     @Override
     public void openCardDetail(Card requestedCard) {
-
+        throw new UnsupportedOperationException();
     }
 
     @Override
     public void removeCard(Card requestedCard) {
-
+        throw new UnsupportedOperationException();
     }
 
     @Override
@@ -79,6 +70,7 @@ public class CardsPresenter implements CardsContract.Presenter {
 
     @Override
     public void playSound(Card card) {
+        /*
         repository.getFile(card, new GetFileCallback() {
             @Override
             public void onFileLoaded(String path) {
@@ -94,6 +86,7 @@ public class CardsPresenter implements CardsContract.Presenter {
                 }
             }
         });
+        */
     }
 
     @Override

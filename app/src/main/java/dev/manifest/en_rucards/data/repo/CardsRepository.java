@@ -9,6 +9,7 @@ import androidx.annotation.NonNull;
 import dev.manifest.en_rucards.data.model.Card;
 import dev.manifest.en_rucards.data.storage.FileStorage;
 import io.reactivex.Flowable;
+import io.reactivex.Maybe;
 
 @Singleton
 public class CardsRepository implements CardsDataSource {
@@ -69,6 +70,7 @@ public class CardsRepository implements CardsDataSource {
                                 });
                     }
                 });
+        */
     }
 
     @Override
@@ -77,7 +79,9 @@ public class CardsRepository implements CardsDataSource {
     }
 
     @Override
-    public void getFile(@NonNull Card card, @NonNull GetFileCallback callback) {
+    public Maybe<String> getFile(@NonNull Card card) {
+        throw new UnsupportedOperationException();
+        /*
         localDataSource.getFile(card, new GetFileCallback() {
             @Override
             public void onFileLoaded(String path) {
@@ -115,5 +119,6 @@ public class CardsRepository implements CardsDataSource {
                 });
             }
         });
+        */
     }
 }

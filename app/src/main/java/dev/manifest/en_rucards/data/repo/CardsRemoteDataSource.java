@@ -13,7 +13,10 @@ import dev.manifest.en_rucards.data.model.Minicard;
 import dev.manifest.en_rucards.data.storage.FileStorage;
 import dev.manifest.en_rucards.network.LingvoApi;
 import io.reactivex.Flowable;
+import io.reactivex.Maybe;
 import io.reactivex.Single;
+import io.reactivex.SingleSource;
+import io.reactivex.functions.Function;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -34,12 +37,12 @@ public class CardsRemoteDataSource implements CardsDataSource {
 
     @Override
     public Flowable<List<Card>> getCards() {
-        return null;
+        throw new UnsupportedOperationException();
     }
 
     @Override
     public Flowable<Card> getCard(@NonNull String cardId) {
-        return null;
+        throw new UnsupportedOperationException();
     }
 
     @Override
@@ -55,25 +58,34 @@ public class CardsRemoteDataSource implements CardsDataSource {
 
     @Override
     public void saveCard(@NonNull Card card) {
-
+        throw new UnsupportedOperationException();
     }
 
     @Override
     public void deleteCard(@NonNull String cardId) {
-
+        throw new UnsupportedOperationException();
     }
 
     @Override
-    public Single<String> getFile(@NonNull Card card) {
-        return retrofit.create(LingvoApi.class).getSoundFIle(card.getDictName(), card.getSoundName())
+    public Maybe<String> getFile(@NonNull Card card) {
+        return retrofit.create(LingvoApi.class).getSoundFile(card.getDictName(), card.getSoundName())
+                .flatMap(new Function<Response<ResponseBody>, SingleSource<?>>() {
+                    @Override
+                    public SingleSource<?> apply(Response<ResponseBody> responseBodyResponse) throws Exception {
+                        return null;
+                    }
+        })
                 .map(responseBody -> {
                     if (responseBody != null) {
-                        InputStream inputStream = responseBody.byteStream();
+                        InputStream inputStream = responseBody.body().byteStream();
                         String soundName = card.getSoundName();
-                        fileStorage.saveFile(soundName, inputStream);
-                        return soundName;
+                        if (fileStorage.saveFile(soundName, inputStream)) {
+                            return Maybe.just(soundName);
+                        } else {
+                            return Maybe.empty();
+                        }
                     } else {
-                        return null;
+                        return Maybe.empty();
                     }
                 });
     }
