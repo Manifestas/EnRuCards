@@ -6,6 +6,7 @@ import io.reactivex.Flowable;
 import io.reactivex.Single;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
+import retrofit2.Response;
 import retrofit2.http.GET;
 import retrofit2.http.Headers;
 import retrofit2.http.POST;
@@ -24,6 +25,6 @@ public interface LingvoApi {
     Flowable<Minicard> getTranslation(@Query("text") String ruText);
 
     @GET("api/v1/Sound?")
-    Single<ResponseBody> getSoundFIle(@Query("dictionaryName") String dictName,
-                                      @Query("fileName") String fileName);
+    Single<Response<ResponseBody>> getSoundFIle(@Query("dictionaryName") String dictName,
+                                               @Query("fileName") String fileName);
 }
