@@ -25,6 +25,6 @@ public interface LingvoApi {
     Flowable<Minicard> getTranslation(@Query("text") String ruText);
 
     @GET("api/v1/Sound?")
-    Single<Response<ResponseBody>> getSoundFIle(@Query("dictionaryName") String dictName,
+    Single<Response<ResponseBody>> getSoundFile(@Query("dictionaryName") String dictName,
                                                @Query("fileName") String fileName);
 }
