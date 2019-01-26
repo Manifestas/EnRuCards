@@ -31,10 +31,15 @@ public class CardsPresenter implements CardsContract.Presenter {
         if (wordsView != null) {
             wordsView.showLoadingIndicator(true);
             subscriptions.add(repository.getCards()
+                    .subscribeOn(schedulerProvider.io())
+                    .observeOn(schedulerProvider.ui())
                     .subscribe(
-                            cards -> wordsView.showCards(cards),
+                            cards -> {
+                                wordsView.showCards(cards);
+                            },
                             error -> wordsView.showSnackbarMessage(R.string.empty_dictionary)
                     ));
+            wordsView.showLoadingIndicator(false);
         }
     }
 
