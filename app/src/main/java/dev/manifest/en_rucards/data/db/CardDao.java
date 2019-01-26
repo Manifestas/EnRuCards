@@ -8,6 +8,7 @@ import androidx.room.OnConflictStrategy;
 import androidx.room.Query;
 import dev.manifest.en_rucards.data.model.Card;
 import io.reactivex.Flowable;
+import io.reactivex.Maybe;
 
 @Dao
 public interface CardDao {
@@ -22,6 +23,6 @@ public interface CardDao {
     Flowable<Card> getCardById(long cardId);
 
     @Query("SELECT * FROM card WHERE original_word = :originalWord")
-    Flowable<Card> getCardByOriginalWord(String originalWord);
+    Maybe<Card> getCardByOriginalWord(String originalWord);
 
 }

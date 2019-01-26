@@ -34,19 +34,20 @@ public class CardsRepository implements CardsDataSource {
 
     @Override
     public Flowable<Card> getCard(@NonNull String cardId) {
-        return null;
+        throw new UnsupportedOperationException();
     }
 
     @Override
-    public Flowable<Card> getCardByOriginalWord(@NonNull String word) {
-        return null;
+    public Maybe<Card> getCardByOriginalWord(@NonNull String word) {
+        throw new UnsupportedOperationException();
     }
 
     @Override
     public void saveCard(@NonNull Card card) {
         final String originalWord = card.getOriginalWord();
         localDataSource.getCardByOriginalWord(originalWord)
-                .
+                .switchIfEmpty(remoteDataSource.getCardByOriginalWord(originalWord));
+                /*
         localDataSource.getCardByOriginalWord(originalWord,
                 new GetCardCallback() {
                     @Override
@@ -75,50 +76,12 @@ public class CardsRepository implements CardsDataSource {
 
     @Override
     public void deleteCard(@NonNull String cardId) {
-
+        throw new UnsupportedOperationException();
     }
 
     @Override
     public Maybe<String> getFile(@NonNull Card card) {
-        throw new UnsupportedOperationException();
-        /*
-        localDataSource.getFile(card, new GetFileCallback() {
-            @Override
-            public void onFileLoaded(String path) {
-                if (path != null && !path.isEmpty()) {
-                    callback.onFileLoaded(path);
-                } else {
-                    // request from internet
-                    remoteDataSource.getFile(card, new GetFileCallback() {
-                        @Override
-                        public void onFileLoaded(String path) {
-                            callback.onFileLoaded(path);
-                        }
-
-                        @Override
-                        public void onFileNotAvailable() {
-                            callback.onFileNotAvailable();
-                        }
-                    });
-                }
-            }
-
-            @Override
-            public void onFileNotAvailable() {
-                // request from internet
-                remoteDataSource.getFile(card, new GetFileCallback() {
-                    @Override
-                    public void onFileLoaded(String path) {
-                        callback.onFileLoaded(path);
-                    }
-
-                    @Override
-                    public void onFileNotAvailable() {
-                        callback.onFileNotAvailable();
-                    }
-                });
-            }
-        });
-        */
+        return localDataSource.getFile(card)
+                .switchIfEmpty(remoteDataSource.getFile(card));
     }
 }

@@ -13,7 +13,7 @@ public interface CardsDataSource {
 
     Flowable<Card> getCard(@NonNull String cardId);
 
-    Flowable<Card> getCardByOriginalWord(@NonNull String word);
+    Maybe<Card> getCardByOriginalWord(@NonNull String word);
 
     void saveCard(@NonNull Card card);
 

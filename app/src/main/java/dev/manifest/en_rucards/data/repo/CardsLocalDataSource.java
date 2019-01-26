@@ -2,7 +2,6 @@ package dev.manifest.en_rucards.data.repo;
 
 
 import java.util.List;
-import java.util.Optional;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
@@ -14,9 +13,6 @@ import dev.manifest.en_rucards.data.storage.FileStorage;
 import dev.manifest.en_rucards.util.AppExecutors;
 import io.reactivex.Flowable;
 import io.reactivex.Maybe;
-import io.reactivex.MaybeEmitter;
-import io.reactivex.MaybeOnSubscribe;
-import io.reactivex.Single;
 
 @Singleton
 public class CardsLocalDataSource implements CardsDataSource {
@@ -44,7 +40,7 @@ public class CardsLocalDataSource implements CardsDataSource {
 
 
     @Override
-    public Flowable<Card> getCardByOriginalWord(@NonNull String word) {
+    public Maybe<Card> getCardByOriginalWord(@NonNull String word) {
         return dao.getCardByOriginalWord(word);
     }
 
