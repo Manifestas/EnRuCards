@@ -9,11 +9,4 @@
     tools:context=".cards.CardsActivity"
     tools:showIn="@layout/activity_cards">
 
-    <ProgressBar
-        android:id="@+id/pb_indeterminate"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:visibility="gone" />
-
 </FrameLayout>
