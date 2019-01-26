@@ -84,6 +84,7 @@ public class CardsFragment extends Fragment implements CardsContract.View,
                 layoutManager.getOrientation());
         recyclerView.addItemDecoration(dividerItemDecoration);
 
+        presenter.takeView(this);
         presenter.loadCards();
 
         return root;
