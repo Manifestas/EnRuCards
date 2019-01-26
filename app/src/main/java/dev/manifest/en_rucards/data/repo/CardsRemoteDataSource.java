@@ -62,7 +62,7 @@ public class CardsRemoteDataSource implements CardsDataSource {
     public Maybe<String> getFile(@NonNull Card card) {
         return retrofit.create(LingvoApi.class).getSoundFile(card.getDictName(), card.getSoundName())
                 .flatMapMaybe(responseBody -> {
-                    if (responseBody != null) {
+                    if (responseBody.body() != null) {
                         InputStream inputStream = responseBody.body().byteStream();
                         String soundName = card.getSoundName();
                         if (fileStorage.saveFile(soundName, inputStream)) {
