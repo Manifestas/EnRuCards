@@ -8,23 +8,29 @@ import javax.inject.Singleton;
 import androidx.annotation.NonNull;
 import dev.manifest.en_rucards.data.model.Card;
 import dev.manifest.en_rucards.data.storage.FileStorage;
+import dev.manifest.en_rucards.util.SchedulerProvider;
 import io.reactivex.Flowable;
 import io.reactivex.Maybe;
 
 @Singleton
 public class CardsRepository implements CardsDataSource {
 
+    public static final String TAG = CardsRepository.class.getSimpleName();
+
     private CardsDataSource localDataSource;
     private CardsDataSource remoteDataSource;
     private FileStorage fileStorage;
+    private SchedulerProvider schedulerProvider;
 
     @Inject
     public CardsRepository(CardsLocalDataSource localDataSource,
                            CardsRemoteDataSource remoteDataSource,
-                           FileStorage fileStorage) {
+                           FileStorage fileStorage,
+                           SchedulerProvider schedulerProvider) {
         this.localDataSource = localDataSource;
         this.remoteDataSource = remoteDataSource;
         this.fileStorage = fileStorage;
+        this.schedulerProvider = schedulerProvider;
     }
 
     @Override
@@ -46,32 +52,10 @@ public class CardsRepository implements CardsDataSource {
     public void saveCard(@NonNull Card card) {
         final String originalWord = card.getOriginalWord();
         localDataSource.getCardByOriginalWord(originalWord)
-                .switchIfEmpty(remoteDataSource.getCardByOriginalWord(originalWord));
-                /*
-        localDataSource.getCardByOriginalWord(originalWord,
-                new GetCardCallback() {
-                    @Override
-                    public void onCardLoaded(Card card) {
-                        // card already in db
-                    }
-
-                    @Override
-                    public void onDataNotAvailable() {
-                        remoteDataSource.getCardByOriginalWord(originalWord,
-                                new GetCardCallback() {
-                                    @Override
-                                    public void onCardLoaded(Card card) {
-                                        localDataSource.saveCard(card);
-                                    }
-
-                                    @Override
-                                    public void onDataNotAvailable() {
-
-                                    }
-                                });
-                    }
-                });
-        */
+                .switchIfEmpty(Maybe.defer(() -> remoteDataSource.getCardByOriginalWord(originalWord)
+                        .doOnSuccess(localDataSource::saveCard)))
+                .subscribeOn(schedulerProvider.io())
+                .subscribe();
     }
 
     @Override
@@ -82,6 +66,6 @@ public class CardsRepository implements CardsDataSource {
     @Override
     public Maybe<String> getFile(@NonNull Card card) {
         return localDataSource.getFile(card)
-                .switchIfEmpty(remoteDataSource.getFile(card));
+                .switchIfEmpty(Maybe.defer(() -> remoteDataSource.getFile(card)));
     }
 }
