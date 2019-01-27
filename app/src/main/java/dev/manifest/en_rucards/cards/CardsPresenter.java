@@ -75,23 +75,20 @@ public class CardsPresenter implements CardsContract.Presenter {
 
     @Override
     public void playSound(Card card) {
-        /*
-        repository.getFile(card, new GetFileCallback() {
-            @Override
-            public void onFileLoaded(String path) {
-                if (wordsView != null) {
-                    wordsView.playSound(path);
-                }
-            }
-
-            @Override
-            public void onFileNotAvailable() {
-                if (wordsView != null) {
-                    wordsView.showSnackbarMessage(R.string.sound_not_available);
-                }
-            }
-        });
-        */
+        subscriptions.add(repository.getFile(card)
+                .subscribeOn(schedulerProvider.io())
+                .subscribe(
+                        path -> {
+                            if (wordsView != null) {
+                                wordsView.playSound(path);
+                            }
+                        },
+                        throwable -> {
+                            if (wordsView != null) {
+                                wordsView.showSnackbarMessage(R.string.sound_not_available);
+                            }
+                        }
+                ));
     }
 
     @Override
@@ -104,6 +101,5 @@ public class CardsPresenter implements CardsContract.Presenter {
     @Override
     public void dropView() {
         wordsView = null;
-
     }
 }

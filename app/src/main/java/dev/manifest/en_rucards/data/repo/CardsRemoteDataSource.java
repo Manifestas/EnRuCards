@@ -66,7 +66,7 @@ public class CardsRemoteDataSource implements CardsDataSource {
                         InputStream inputStream = responseBody.body().byteStream();
                         String soundName = card.getSoundName();
                         if (fileStorage.saveFile(soundName, inputStream)) {
-                            return Maybe.just(soundName);
+                            return Maybe.just(fileStorage.getFilePath(soundName));
                         } else {
                             return Maybe.empty();
                         }
