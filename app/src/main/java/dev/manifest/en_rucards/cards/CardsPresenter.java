@@ -29,17 +29,15 @@ public class CardsPresenter implements CardsContract.Presenter {
     @Override
     public void loadCards() {
         if (wordsView != null) {
-            wordsView.showLoadingIndicator(true);
             subscriptions.add(repository.getCards()
                     .subscribeOn(schedulerProvider.io())
                     .observeOn(schedulerProvider.ui())
+                    .doOnSubscribe(subscription -> wordsView.showLoadingIndicator(true))
+                    .doFinally(() -> wordsView.showLoadingIndicator(false))
                     .subscribe(
-                            cards -> {
-                                wordsView.showCards(cards);
-                            },
+                            cards -> wordsView.showCards(cards),
                             error -> wordsView.showSnackbarMessage(R.string.empty_dictionary)
                     ));
-            wordsView.showLoadingIndicator(false);
         }
     }
 
