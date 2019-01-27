@@ -7,7 +7,6 @@ import javax.inject.Singleton;
 
 import androidx.annotation.NonNull;
 import dev.manifest.en_rucards.data.model.Card;
-import dev.manifest.en_rucards.data.storage.FileStorage;
 import dev.manifest.en_rucards.util.SchedulerProvider;
 import io.reactivex.Flowable;
 import io.reactivex.Maybe;
@@ -19,17 +18,14 @@ public class CardsRepository implements CardsDataSource {
 
     private CardsDataSource localDataSource;
     private CardsDataSource remoteDataSource;
-    private FileStorage fileStorage;
     private SchedulerProvider schedulerProvider;
 
     @Inject
     public CardsRepository(CardsLocalDataSource localDataSource,
                            CardsRemoteDataSource remoteDataSource,
-                           FileStorage fileStorage,
                            SchedulerProvider schedulerProvider) {
         this.localDataSource = localDataSource;
         this.remoteDataSource = remoteDataSource;
-        this.fileStorage = fileStorage;
         this.schedulerProvider = schedulerProvider;
     }
 
