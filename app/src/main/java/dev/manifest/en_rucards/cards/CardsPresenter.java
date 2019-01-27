@@ -100,6 +100,7 @@ public class CardsPresenter implements CardsContract.Presenter {
 
     @Override
     public void dropView() {
+        subscriptions.clear();
         wordsView = null;
     }
 }
