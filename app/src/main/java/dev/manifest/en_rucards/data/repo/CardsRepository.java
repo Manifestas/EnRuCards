@@ -7,7 +7,7 @@ import javax.inject.Singleton;
 
 import androidx.annotation.NonNull;
 import dev.manifest.en_rucards.data.model.Card;
-import dev.manifest.en_rucards.util.SchedulerProvider;
+import dev.manifest.en_rucards.util.schedulers.SchedulerProvider;
 import io.reactivex.Flowable;
 import io.reactivex.Maybe;
 

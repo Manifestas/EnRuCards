@@ -15,7 +15,7 @@ import dev.manifest.en_rucards.network.TokenAuthenticator;
 import dev.manifest.en_rucards.network.TokenInterceptor;
 import dev.manifest.en_rucards.network.TokenManager;
 import dev.manifest.en_rucards.util.AppExecutors;
-import dev.manifest.en_rucards.util.SchedulerProvider;
+import dev.manifest.en_rucards.util.schedulers.SchedulerProvider;
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
