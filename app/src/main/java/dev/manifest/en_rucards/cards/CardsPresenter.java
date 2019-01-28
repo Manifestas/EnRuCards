@@ -9,7 +9,7 @@ import javax.inject.Singleton;
 import dev.manifest.en_rucards.R;
 import dev.manifest.en_rucards.data.model.Card;
 import dev.manifest.en_rucards.data.repo.CardsRepository;
-import dev.manifest.en_rucards.util.schedulers.SchedulerProvider;
+import dev.manifest.en_rucards.util.schedulers.BaseSchedulerProvider;
 import io.reactivex.disposables.CompositeDisposable;
 
 @Singleton
@@ -18,10 +18,10 @@ public class CardsPresenter implements CardsContract.Presenter {
     private CompositeDisposable subscriptions = new CompositeDisposable();
     private CardsRepository repository;
     private CardsContract.View wordsView;
-    private SchedulerProvider schedulerProvider;
+    private BaseSchedulerProvider schedulerProvider;
 
     @Inject
-    public CardsPresenter(CardsRepository repository, SchedulerProvider schedulerProvider) {
+    public CardsPresenter(CardsRepository repository, BaseSchedulerProvider schedulerProvider) {
         this.repository = repository;
         this.schedulerProvider = schedulerProvider;
     }

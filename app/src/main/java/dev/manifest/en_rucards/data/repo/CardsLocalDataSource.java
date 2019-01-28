@@ -10,7 +10,6 @@ import androidx.annotation.NonNull;
 import dev.manifest.en_rucards.data.db.CardDao;
 import dev.manifest.en_rucards.data.model.Card;
 import dev.manifest.en_rucards.data.storage.FileStorage;
-import dev.manifest.en_rucards.util.AppExecutors;
 import io.reactivex.Flowable;
 import io.reactivex.Maybe;
 
@@ -18,13 +17,11 @@ import io.reactivex.Maybe;
 public class CardsLocalDataSource implements CardsDataSource {
 
     private CardDao dao;
-    private AppExecutors executors;
     private FileStorage fileStorage;
 
     @Inject
-    public CardsLocalDataSource(CardDao dao, AppExecutors executors, FileStorage fileStorage) {
+    public CardsLocalDataSource(CardDao dao, FileStorage fileStorage) {
         this.dao = dao;
-        this.executors = executors;
         this.fileStorage = fileStorage;
     }
 
@@ -46,7 +43,7 @@ public class CardsLocalDataSource implements CardsDataSource {
 
     @Override
     public void saveCard(@NonNull Card card) {
-        executors.diskIO().execute(() -> dao.insertCard(card));
+        dao.insertCard(card);
     }
 
     @Override
