@@ -13,7 +13,6 @@ import com.google.android.material.snackbar.Snackbar;
 import java.util.List;
 
 import javax.inject.Inject;
-import javax.inject.Named;
 
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
@@ -25,7 +24,6 @@ import dev.manifest.en_rucards.App;
 import dev.manifest.en_rucards.R;
 import dev.manifest.en_rucards.data.model.Card;
 import dev.manifest.en_rucards.media.AudioPlayer;
-import retrofit2.Retrofit;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -38,9 +36,6 @@ public class CardsFragment extends Fragment implements CardsContract.View,
     public static final int REQUEST_NEW_WORD = 0;
     private static final String TAG = CardsFragment.class.getSimpleName();
     private static final String DIALOG_NEW_WORD = "DialogNewWord";
-    @Inject
-    @Named("auth")
-    Retrofit retrofit;
     @Inject
     CardsPresenter presenter;
     @Inject
